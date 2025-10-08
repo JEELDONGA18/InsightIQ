@@ -1,10 +1,10 @@
 
 import './App.css';
-import HeroSection from './components/HeroSection';
-import FeaturesSection from './components/FeaturesSection';
-import DashboardPreview from './components/DashboardPreview';
-import BenefitsSection from './components/BenefitsSection';
-import CTASection from './components/CTASection';
+import HeroSection from './components/LandingPage/HeroSection';
+import FeaturesSection from './components/LandingPage/FeaturesSection';
+import DashboardPreview from './components/LandingPage/DashboardPreview';
+import BenefitsSection from './components/LandingPage/BenefitsSection';
+import CTASection from './components/LandingPage/CTASection';
 import Footer from './components/Footer';
 
 
