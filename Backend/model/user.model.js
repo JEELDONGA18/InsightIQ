@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { Department } from "./department.model";
+import { Department } from "./department.model.js";
 import bcrypt from "bcrypt";
 
 const userSchema = new Schema(
