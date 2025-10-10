@@ -1,0 +1,4 @@
+framer-motion 
+lucide-react 
+aos
+react-router-dom

@@ -1,36 +1,37 @@
-import React, { useState } from "react";
+// src/components/CTASection.js
+import React from "react";
+import { motion } from "framer-motion";
 
 const CTASection = () => {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
   return (
-    <section id="cta" className="py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-      <div className="max-w-2xl mx-auto px-4 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Grow Your MSP?</h2>
-        <p className="mb-8 text-lg">Sign up for early access or request a personalized demo.</p>
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <input
-            type="email"
-            required
-            placeholder="Enter your email"
-            className="px-6 py-3 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-400 w-full sm:w-auto"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="bg-white text-purple-700 font-semibold px-8 py-3 rounded-xl shadow-lg hover:bg-purple-100 transition"
-          >
-            {submitted ? "Submitted!" : "Request Access"}
-          </button>
-        </form>
-      </div>
+    <section className="relative py-28 bg-gradient-to-b from-black via-gray-950 to-black text-white overflow-hidden text-center">
+      {/* Glowing Background Aura */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(34,211,238,0.1),_transparent_60%)]"></div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: false }}
+        className="max-w-4xl mx-auto relative z-10 px-6"
+      >
+        <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          Ready to <span className="text-cyan-400">Grow Smarter?</span>
+        </h2>
+        <p className="text-gray-400 text-lg mb-10">
+          Join InsightIQ today and unlock real-time insights that empower your MSP
+          and IT teams to make confident, data-driven business decisions.
+        </p>
+
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ duration: 0.2 }}
+          className="px-8 py-4 bg-cyan-400 text-black font-semibold rounded-xl shadow-lg hover:bg-cyan-300 transition-all duration-300"
+        >
+          Get Started — It’s Free
+        </motion.button>
+      </motion.div>
     </section>
   );
 };

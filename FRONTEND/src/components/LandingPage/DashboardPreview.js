@@ -1,37 +1,53 @@
+// src/components/DashboardPreview.js
 import React from "react";
-
-const dashboards = [
-  {
-    role: "Admin",
-    img: "https://dummyimage.com/400x250/6366f1/fff&text=Admin+Dashboard",
-    desc: "Full MSP overview: profit, clients, teams."
-  },
-  {
-    role: "Department Head",
-    img: "https://dummyimage.com/400x250/8b5cf6/fff&text=Dept+Dashboard",
-    desc: "Department performance, budget, and KPIs."
-  },
-  {
-    role: "Agent",
-    img: "https://dummyimage.com/400x250/0ea5e9/fff&text=Agent+Dashboard",
-    desc: "Personal goals, client tasks, and efficiency."
-  }
-];
+import { motion } from "framer-motion";
+import dashboardImg from "../../assets/dashboard-preview.png"; 
 
 const DashboardPreview = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">Dashboard Previews</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {dashboards.map((dash, idx) => (
-            <div key={idx} className="rounded-2xl shadow-lg bg-white dark:bg-gray-800 p-6 flex flex-col items-center hover:scale-105 transition-transform">
-              <img src={dash.img} alt={dash.role + ' dashboard'} className="rounded-xl mb-4 w-full h-48 object-cover shadow-md" />
-              <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">{dash.role}</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-center">{dash.desc}</p>
-            </div>
-          ))}
-        </div>
+    <section id="dashboard-preview" className="relative py-28 bg-gradient-to-b from-black via-gray-950 to-black text-white overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(34,211,238,0.08),_transparent_60%)]"></div>
+
+      <div className="max-w-6xl mx-auto text-center px-6 relative z-10">
+        {/* Section Heading */}
+        <motion.h2
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: false }}
+          className="text-4xl md:text-5xl font-bold mb-6"
+        >
+          Your Business <span className="text-cyan-400">At a Glance</span>
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          viewport={{ once: false }}
+          className="text-gray-400 text-lg max-w-3xl mx-auto mb-12"
+        >
+          Visualize key insights like profitability, departmental spend, and client performance — all in one sleek dashboard.
+        </motion.p>
+
+        {/* Dashboard Image Preview */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          viewport={{ once: false }}
+          className="relative flex justify-center"
+        >
+          {/* Glowing border effect */}
+          <div className="absolute inset-0 w-[85%] mx-auto h-[100%] bg-cyan-400/10 blur-[120px] rounded-3xl"></div>
+
+          <img
+            src={dashboardImg}
+            alt="InsightIQ Dashboard Preview"
+            className="rounded-3xl border border-cyan-400/20 shadow-2xl hover:scale-[1.02] transition-transform duration-500"
+          />
+        </motion.div>
       </div>
     </section>
   );
