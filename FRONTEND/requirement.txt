@@ -2,3 +2,6 @@ framer-motion
 lucide-react 
 aos
 react-router-dom
+chart.js 
+react-chartjs-2
+recharts
