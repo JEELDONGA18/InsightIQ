@@ -1,7 +1,7 @@
 import asynchandler from "../config/asyncHandler.config.js";
 import { verifyJwt } from "../utils/jwt.js";
 
-export const auth = asynchandler(async (req, res, next) => {
+const auth = asynchandler(async (req, res, next) => {
   // Try to get token from cookie
   let token = req.cookies?.token;
   console.log("Token received:", token);
@@ -27,3 +27,5 @@ export const auth = asynchandler(async (req, res, next) => {
   req.user = user._id;
   next();
 });
+
+export default auth

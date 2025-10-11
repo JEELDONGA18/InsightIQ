@@ -7,30 +7,7 @@ import { User } from "../model/user.model.js";
  * Description: Allows only admin users to create a new user within the same company.
  */
 const addUser = asyncHandler(async (req, res) => {
-  const userId = req.user; // ID of currently logged-in user (from auth middleware)
-
-  //  Check if requesting user exists
-  const user = await User.findById(userId);
-  if (!user) {
-    return res.status(404).json({ message: "User not found." });
-  }
-
-  //  Verify that the user belongs to a valid department in their company
-  const department = await Department.findOne({
-    _id: user.department,
-    company: user.company,
-  });
-
-  if (!department) {
-    return res.status(403).json({ message: "User is not in a valid department." });
-  }
-
-  // Ensure that only 'admin' department users can add new users
-  if (department.name.toLowerCase() !== "admin") {
-    return res
-      .status(403)
-      .json({ message: "You don't have authority to add a user." });
-  }
+  const admin = req.admin;
 
   // Validate required input fields
   const { email, password, department: departmentName } = req.body;
@@ -47,7 +24,7 @@ const addUser = asyncHandler(async (req, res) => {
   // Find the target department for the new user
   const targetDepartment = await Department.findOne({
     name: departmentName.toLowerCase(),
-    company: user.company,
+    company: admin.company,
   });
 
   if (!targetDepartment) {
@@ -59,7 +36,7 @@ const addUser = asyncHandler(async (req, res) => {
     email,
     password,
     department: targetDepartment._id,
-    company: user.company,
+    company: admin.company,
   });
 
   // Send success response
