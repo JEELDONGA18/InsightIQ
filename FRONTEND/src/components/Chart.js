@@ -24,7 +24,7 @@ const Chart = ({ type = "line", data = [], labels = [], compact = false }) => {
     backgroundColor: "rgba(17,24,39,0.95)",
     border: "1px solid #00ffff",
     borderRadius: "10px",
-    color: "#e0f7fa",
+    color: "#e0f7faff",
     fontSize: "0.85rem",
     boxShadow: "0 0 20px rgba(0,255,255,0.4)",
     backdropFilter: "blur(8px)",
