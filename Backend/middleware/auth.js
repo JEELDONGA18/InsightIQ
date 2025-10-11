@@ -22,6 +22,8 @@ export const auth = asynchandler(async (req, res, next) => {
     });
   }
 
+  const user = decoded;
+
   req.user = user._id;
   next();
 });
