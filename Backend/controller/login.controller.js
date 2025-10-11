@@ -12,7 +12,7 @@ export const loginController = asynchandler(async (req, res) => {
   if (!user) {
     return res.status(401).json({
       error: "Login failed",
-      message: "Invalid email, role, or company name",
+      message: "Invalid email",
     });
   }
   const isPasswordValid = await user.comparePassword(password);
@@ -25,7 +25,7 @@ export const loginController = asynchandler(async (req, res) => {
 
   // Generate token
   const token = generateToken(user._id);
-  console.log("token", token);
+  // Token generated for user login
 
   setCookie(res, "jwttoken", token, 7 * 24 * 60 * 60 * 1000); // 7 day
 
