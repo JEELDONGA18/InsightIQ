@@ -12,7 +12,7 @@ export const loginController = asynchandler(async (req, res) => {
   if (!user) {
     return res.status(401).json({
       error: "Login failed",
-      message: "Invalid email, role, or company name",
+      message: "Invalid email",
     });
   }
   const isPasswordValid = await user.comparePassword(password);
