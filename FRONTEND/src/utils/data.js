@@ -35,9 +35,9 @@ const sampleGrowthInsights = {
 };
 
 const samplePredictiveInsights = [
-  { title: "Next Quarter Profit Forecast", value: "$50,000", icon: "🔮" },
-  { title: "Potential Churn Clients", value: "3", icon: "⚠️" },
-  { title: "Upsell Opportunities", value: "5", icon: "📈" },
+  { title: "Next Month", value: "3", icon: "⚠️" },
+  { title: "Next Quarter", value: "$50,000", icon: "🔮" },
+  { title: "Next Financial Year", value: "5", icon: "📈" },
 ]; 
 
 export const adminDashboardData = {
@@ -109,4 +109,141 @@ export const adminEmployeesData = {
   columns: ["ID", "Name", "Department", "Manager", "Email", "Status", "Actions"],
   data: sampleEmployees,
   actions: ["Edit", "Delete", "View"]
+};
+
+// -------------------------
+// Department Dashboard Data
+// -------------------------
+export const deptDashboardData = {
+  budgetVsActual: {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+    budget: [5000, 6000, 5500, 7000, 6500],
+    actual: [4800, 6200, 5300, 6800, 6400]
+  },
+  employeeProductivity: {
+    labels: ["Alice", "Bob", "Charlie", "David", "Eva"],
+    data: [80, 75, 90, 70, 85]
+  },
+  softwareUsage: {
+    labels: ["Tool A", "Tool B", "Tool C", "Tool D"],
+    data: [40, 25, 20, 15]
+  },
+  clientData: [
+    { Client: "Client X", Projects: 5, Revenue: "$10,000" },
+    { Client: "Client Y", Projects: 3, Revenue: "$7,500" },
+    { Client: "Client Z", Projects: 4, Revenue: "$9,000" }
+  ],
+  optimizationSuggestions: [
+    { title: "Reduce Software Licenses", description: "Unused licenses detected in Tool B and C" },
+    { title: "Reassign Projects", description: "Some employees are underutilized" }
+  ]
+};
+
+// -------------------------
+// Department Employees Data
+// -------------------------
+export const deptEmployeesData = {
+  columns: ["ID", "Name", "Email", "Role", "Status", "Actions"],
+  data: [
+    { id: 1, name: "Alice Johnson", email: "alice@company.com", role: "Dept Head", status: "Active" },
+    { id: 2, name: "Bob Smith", email: "bob@company.com", role: "Employee", status: "Active" },
+    { id: 3, name: "Charlie Lee", email: "charlie@company.com", role: "Employee", status: "Inactive" },
+    { id: 4, name: "David Brown", email: "david@company.com", role: "Employee", status: "Active" },
+  ],
+  actions: ["Edit", "Delete", "View"]
+};
+
+// -------------------------
+// Department Reports Data
+// -------------------------
+export const deptReportsData = {
+  summaryCards: [
+    { title: "Projects Completed", value: 12 },
+    { title: "Active Employees", value: 8 },
+    { title: "Budget Used", value: "$32,000" },
+    { title: "Pending Tasks", value: 5 }
+  ],
+  performance: {
+    labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+    data: [80, 90, 75, 85]
+  },
+  resources: {
+    labels: ["Tool A", "Tool B", "Tool C"],
+    data: [50, 30, 20]
+  },
+  downloads: [
+    { name: "Monthly Report - January", link: "/reports/jan.pdf" },
+    { name: "Monthly Report - February", link: "/reports/feb.pdf" },
+    { name: "Monthly Report - March", link: "/reports/mar.pdf" },
+  ]
+};
+
+
+// -------------------------
+// Employee Dashboard Data
+// -------------------------
+export const employeeDashboardData = {
+  summaryCards: [
+    { title: "Daily Tasks", value: 5 },
+    { title: "Pending Deadlines", value: 2 },
+    { title: "KPI Progress", value: "75%" },
+    { title: "Leads / Campaigns", value: 3 }
+  ],
+  tasks: {
+    columns: ["Task", "Project", "Deadline", "Status"],
+    data: [
+      { Task: "Design Homepage", Project: "Website Redesign", Deadline: "2025-10-15", Status: "In Progress" },
+      { Task: "Client Meeting Prep", Project: "Project X", Deadline: "2025-10-12", Status: "Pending" },
+      { Task: "Bug Fix #23", Project: "Mobile App", Deadline: "2025-10-14", Status: "Completed" },
+    ],
+    actions: ["View", "Update"]
+  },
+  assignedClients: {
+    columns: ["Client", "Tickets", "Revenue", "Status"],
+    data: [
+      { Client: "Client X", Tickets: 5, Revenue: "$10,000", Status: "Active" },
+      { Client: "Client Y", Tickets: 3, Revenue: "$7,500", Status: "Active" },
+    ],
+    actions: ["View"]
+  },
+  performance: {
+    labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+    data: [80, 90, 75, 85]
+  },
+  communicationFeed: [
+    { sender: "Manager", message: "Please submit weekly report.", date: "2025-10-10" },
+    { sender: "HR", message: "Update your profile.", date: "2025-10-09" },
+    { sender: "Client X", message: "Project deadline extended.", date: "2025-10-08" },
+  ]
+};
+
+// -------------------------
+// Employee Tasks Data
+// -------------------------
+export const employeeTasksPageData = {
+  columns: ["Task", "Project", "Deadline", "Status", "Priority"],
+  data: [
+    { Task: "Develop Login Module", Project: "Mobile App", Deadline: "2025-10-12", Status: "In Progress", Priority: "High" },
+    { Task: "Email Campaign Design", Project: "Marketing Campaign", Deadline: "2025-10-15", Status: "Pending", Priority: "Medium" },
+    { Task: "Database Migration", Project: "Internal Tools", Deadline: "2025-10-20", Status: "Pending", Priority: "High" },
+  ],
+  actions: ["View", "Update", "Complete"]
+};
+
+// -------------------------
+// Employee Profile Data
+// -------------------------
+export const employeeProfileData = {
+  personalInfo: {
+    name: "John Doe",
+    email: "john.doe@company.com",
+    phone: "+91 9876543210",
+    department: "IT",
+    role: "Employee"
+  },
+  settings: {
+    notifications: true,
+    theme: "dark",
+    language: "English"
+  }
 };

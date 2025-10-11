@@ -1,30 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, LogOut } from "lucide-react";
+import { Menu, X, LogOut, Home, Users, Settings, Clipboard } from "lucide-react"; // import needed icons
 import { motion } from "framer-motion";
 
 const Sidebar = ({ role }) => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
+  // Sidebar links with icons
   const links = {
     admin: [
-      { name: "Dashboard", path: "/admin/dashboard" },
-      { name: "Department Heads", path: "/admin/dept-heads" },
-      { name: "Employees", path: "/admin/employees" },
-      { name: "Settings", path: "/admin/settings" },
+      { name: "Dashboard", path: "/admin/dashboard", icon: Home },
+      { name: "Department Heads", path: "/admin/dept-heads", icon: Users },
+      { name: "Employees", path: "/admin/employees", icon: Users },
+      { name: "Settings", path: "/admin/settings", icon: Settings },
     ],
     deptHead: [
-      { name: "Dashboard", path: "/dept/dashboard" },
-      { name: "Team Members", path: "/dept/team" },
-      { name: "Projects", path: "/dept/projects" },
-      { name: "Settings", path: "/dept/settings" },
+      { name: "Dashboard", path: "/department/dashboard", icon: Home },
+      { name: "Employees", path: "/department/employees", icon: Users },
+      { name: "Reports", path: "/department/reports", icon: Clipboard },
     ],
     employee: [
-      { name: "Dashboard", path: "/employee/dashboard" },
-      { name: "Tasks", path: "/employee/tasks" },
-      { name: "Reports", path: "/employee/reports" },
-      { name: "Settings", path: "/employee/settings" },
+      { name: "Dashboard", path: "/employee/dashboard", icon: Home },
+      { name: "Tasks", path: "/employee/tasks", icon: Clipboard },
+      { name: "Profile", path: "/employee/profile", icon: Users },
     ],
   };
 
@@ -37,11 +36,11 @@ const Sidebar = ({ role }) => {
   return (
     <>
       {/* Mobile Header */}
-      <div className="md:hidden flex items-center justify-between px-6 py-4 bg-[#0b0c10] border-b border-cyan-500/20 text-white">
+      <div className="md:hidden flex items-center justify-between px-6 py-4 bg-gray-950 border-b border-gray-800 text-gray-100">
         <h1 className="font-bold text-xl tracking-wide">InsightIQ</h1>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded-md hover:bg-cyan-500/10 transition"
+          className="p-2 rounded-md hover:bg-gray-800 transition"
         >
           {isOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -49,44 +48,37 @@ const Sidebar = ({ role }) => {
 
       {/* Sidebar */}
       <motion.aside
-        initial={{ x: -250 }}
-        animate={{ x: isOpen || window.innerWidth >= 768 ? 0 : -250 }}
-        transition={{ duration: 0.4 }}
-        className="fixed top-0 left-0 h-full w-64 bg-[#0b0c10]/95 text-white shadow-[0_0_25px_rgba(0,255,255,0.1)] border-r border-cyan-400/20 z-50 flex flex-col justify-between md:translate-x-0"
+        initial={{ x: -260 }}
+        animate={{ x: isOpen || window.innerWidth >= 768 ? 0 : -260 }}
+        transition={{ duration: 0.3 }}
+        className="fixed top-0 left-0 h-full w-64 bg-gray-950/95 text-gray-200 border-r border-gray-800 z-50 flex flex-col justify-between md:translate-x-0 shadow-lg"
       >
-        {/* Top Section (Logo + Nav) */}
+        {/* Logo + Navigation */}
         <div>
-          {/* Glowing Logo */}
-          <div className="relative px-8 py-8 border-b border-cyan-400/20">
-            <motion.div
-              initial={{ opacity: 0.5 }}
-              animate={{ opacity: [0.4, 0.8, 0.4] }}
-              transition={{ duration: 3, repeat: Infinity }}
-              className="absolute -inset-4 bg-cyan-500/20 blur-3xl rounded-full"
-            ></motion.div>
-
-            <h2 className="relative text-2xl font-extrabold tracking-wider">
-              <span className="text-cyan-400 drop-shadow-[0_0_12px_rgba(0,255,255,0.7)]">
-                Insight
-              </span>
-              <span className="text-white">IQ</span>
+          {/* Logo Section */}
+          <div className="px-8 py-6 border-b border-gray-800">
+            <h2 className="text-2xl font-bold tracking-wide">
+              <span className="text-cyan-400">Insight</span>
+              <span className="text-gray-100">IQ</span>
             </h2>
           </div>
 
           {/* Navigation Links */}
-          <nav className="mt-8 space-y-1">
+          <nav className="mt-6 space-y-1">
             {roleLinks.map((link, idx) => {
               const active = location.pathname === link.path;
+              const Icon = link.icon; // Get the icon component
               return (
                 <Link
                   key={idx}
                   to={link.path}
-                  className={`block relative px-6 py-3 mx-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  className={`flex items-center px-6 py-3 mx-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                     active
-                      ? "bg-gradient-to-r from-cyan-500/20 to-transparent text-cyan-400 border-l-4 border-cyan-400 shadow-[inset_0_0_10px_rgba(0,255,255,0.3)]"
-                      : "text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10"
+                      ? "bg-gray-800 text-cyan-400 border-l-4 border-cyan-400"
+                      : "text-gray-400 hover:text-cyan-400 hover:bg-gray-800/60"
                   }`}
                 >
+                  <Icon size={18} className="mr-3" />
                   {link.name}
                 </Link>
               );
@@ -94,9 +86,10 @@ const Sidebar = ({ role }) => {
           </nav>
         </div>
 
-        {/* Logout Button at Bottom */}
+        {/* Logout Button */}
         <div className="p-6 border-t border-gray-800">
-          <button className="w-full px-4 py-2 bg-cyan-500 hover:bg-cyan-600 rounded-lg shadow-md font-medium">
+          <button className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-800 hover:bg-cyan-600 text-gray-100 font-medium rounded-lg transition-all duration-300">
+            <LogOut size={16} />
             Logout
           </button>
         </div>
@@ -105,7 +98,7 @@ const Sidebar = ({ role }) => {
       {/* Mobile Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/70 z-40 md:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
           onClick={() => setIsOpen(false)}
         ></div>
       )}
