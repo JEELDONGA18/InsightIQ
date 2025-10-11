@@ -1,6 +1,6 @@
 // src/pages/Admin/AdminDashboard.js
 import React from "react";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Sidebar from "../../components/Sidebar/sidebar";
 import DashboardCard from "../../components/DashboardCard";
 import Chart from "../../components/Chart";
 import Table from "../../components/Table";

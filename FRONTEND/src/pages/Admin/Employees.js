@@ -1,6 +1,6 @@
 // src/pages/Admin/Employees.js
 import React, { useState } from "react";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Sidebar from "../../components/Sidebar/sidebar";
 import Table from "../../components/Table";
 import Modal from "../../components/Modal";
 import { adminEmployeesData } from "../../utils/data";
@@ -27,9 +27,7 @@ const Employees = () => {
 
       <main className="flex-1 p-6 md:ml-64">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-cyan-400">
-            Manage Employees
-          </h1>
+          <h1 className="text-3xl font-bold text-cyan-400">Manage Employees</h1>
           <button
             onClick={openCreateModal}
             className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 rounded-2xl shadow-[0_0_15px_rgba(0,255,255,0.4)] font-medium transition-shadow duration-300"

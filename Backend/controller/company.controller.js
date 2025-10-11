@@ -4,6 +4,9 @@ import { Department } from "../model/department.model.js";
 import { User } from "../model/user.model.js";
 
 const company = asynchandler(async (req, res) => {
+  if (!req.body) {
+    return res.status(400).json({ message: "Request body is missing" });
+  }
   const { name, email, password } = req.body;
   if (!name) {
     return res.status(400).json({ message: "Company name is required" });
@@ -18,12 +21,12 @@ const company = asynchandler(async (req, res) => {
   const isExistingCompany = await Company.find({ name });
   console.log(isExistingCompany);
 
-  if (!isExistingCompany) {
+  if (isExistingCompany.length > 0) {
     return res.status(409).json({ message: "Company already exists" });
   }
 
   const isExistingCompanyUser = await User.find({ email });
-  if (!isExistingCompanyUser) {
+  if (isExistingCompanyUser) {
     return res
       .status(409)
       .json({ message: "User with this email already exists" });

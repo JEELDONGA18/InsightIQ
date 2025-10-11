@@ -3,7 +3,7 @@ import { verifyJwt } from "../utils/jwt.js";
 
 export const auth = asynchandler(async (req, res, next) => {
   // Try to get token from cookie
-  let token = req.cookies?.token;
+  let token = req.cookies?.jwttoken;
   console.log("Token received:", token);
 
   if (!token) {
@@ -23,7 +23,8 @@ export const auth = asynchandler(async (req, res, next) => {
   }
 
   const user = decoded;
-
-  req.user = user._id;
+  console.log("Decoded token:", user);
+  req.user = user.userId;
+  console.log("Authenticated user ID:", req.user);
   next();
 });

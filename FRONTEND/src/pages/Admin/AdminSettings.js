@@ -1,6 +1,6 @@
 // src/pages/Admin/Settings.js
 import React from "react";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Sidebar from "../../components/Sidebar/sidebar";
 import DashboardCard from "../../components/DashboardCard";
 import Table from "../../components/Table";
 import { adminSettingsData } from "../../utils/data";
