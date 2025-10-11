@@ -4,7 +4,21 @@ import { setCookie } from "../utils/cookie.js";
 import { generateToken } from "../utils/jwt.js";
 
 export const loginController = asynchandler(async (req, res) => {
+  if (!req.body) {
+    return res.status(400).json({
+      error: "Login failed",
+      message: "Request body is missing or invalid",
+    });
+  }
+
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({
+      error: "Login failed",
+      message: "Email and password are required",
+    });
+  }
 
   const user = await User.findOne({
     email,
@@ -15,6 +29,7 @@ export const loginController = asynchandler(async (req, res) => {
       message: "Invalid email",
     });
   }
+  
   const isPasswordValid = await user.comparePassword(password);
   if (!isPasswordValid) {
     return res.status(401).json({
