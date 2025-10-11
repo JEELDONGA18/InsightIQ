@@ -1,6 +1,6 @@
 // src/pages/Employee/EmployeeDashboard.js
 import React from "react";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Sidebar from "../../components/Sidebar/sidebar.js";
 import DashboardCard from "../../components/DashboardCard";
 import Chart from "../../components/Chart";
 import Table from "../../components/Table";

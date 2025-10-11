@@ -1,6 +1,6 @@
 // src/pages/Admin/DeptHeads.js
 import React, { useState } from "react";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Sidebar from "../../components/Sidebar/sidebar.js";
 import Table from "../../components/Table";
 import Modal from "../../components/Modal";
 import { adminDeptHeadsData } from "../../utils/data";

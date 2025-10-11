@@ -1,6 +1,6 @@
 // src/pages/Admin/Employees.js
 import React, { useState } from "react";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Sidebar from "../../components/Sidebar/sidebar.js";
 import Table from "../../components/Table";
 import Modal from "../../components/Modal";
 import { adminEmployeesData } from "../../utils/data";
