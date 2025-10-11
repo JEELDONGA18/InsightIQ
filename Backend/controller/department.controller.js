@@ -7,16 +7,16 @@ const department = asynchandler(async (req, res) => {
     
     const user = await User.findById(userId).select("-password");
     if(!user){
-        return res.status(409).json({message: "User isn't exists."})
+        return res.status(404).json({message: "User does not exist."})
     }
 
-    const department = await Department.find({_id: user.department, company: user.company});
+    const userDept = await Department.findOne({_id: user.department, company: user.company});
 
-    if(!department){
-        return res.status().josn({message: "User is not belonging with any department"});
+    if(!userDept){
+        return res.status(404).json({message: "User does not belong to any department"});
     }
 
-    return res.status(200).json({department, message: "Department found successfully."})
+    return res.status(200).json({userDept, message: "Department found successfully."})
 })
 
 export default department
