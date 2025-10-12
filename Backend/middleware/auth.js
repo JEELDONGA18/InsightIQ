@@ -23,9 +23,9 @@ const auth = asynchandler(async (req, res, next) => {
   }
 
   const user = decoded;
-  console.log("Decoded token:", user);
+  // console.log("Decoded token:", user);
   req.user = user.userId;
-  console.log("Authenticated user ID:", req.user);
+  // console.log("Authenticated user ID:", req.user);
   next();
 });
 
