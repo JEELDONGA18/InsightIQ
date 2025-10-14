@@ -4,6 +4,7 @@ import dbConnection from "./config/db.config.js";
 import cookieParser from "cookie-parser";
 import adminRoute from "./routes/host.route.js";
 import route from "./routes/route.js";
+import cors from "cors";
 
 const app = express();
 configDotenv();
@@ -11,6 +12,12 @@ configDotenv();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "http://localhost:3001", // or your frontend port
+    credentials: true,
+  })
+);
 
 const PORT = process.env.PORT || 5000;
 

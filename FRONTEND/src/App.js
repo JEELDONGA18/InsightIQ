@@ -1,31 +1,32 @@
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 // Landing page components
-import Navbar from './components/LandingPage/Navbar';
-import HeroSection from './components/LandingPage/HeroSection';
-import FeaturesSection from './components/LandingPage/FeaturesSection';
-import DashboardPreview from './components/LandingPage/DashboardPreview';
-import BenefitsSection from './components/LandingPage/BenefitsSection';
-import CTASection from './components/LandingPage/CTASection';
-import Footer from './components/LandingPage/Footer';
+import Navbar from "./components/LandingPage/Navbar";
+import HeroSection from "./components/LandingPage/HeroSection";
+import FeaturesSection from "./components/LandingPage/FeaturesSection";
+import DashboardPreview from "./components/LandingPage/DashboardPreview";
+import BenefitsSection from "./components/LandingPage/BenefitsSection";
+import CTASection from "./components/LandingPage/CTASection";
+import Footer from "./components/LandingPage/Footer";
 
 // Auth pages
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 
-// Admin Section 
+// Admin Section
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-import AdminSettings from "./pages/Admin/AdminSettings"; 
+import AdminSettings from "./pages/Admin/AdminSettings";
 import DeptHeads from "./pages/Admin/DeptHeads";
 import Employees from "./pages/Admin/Employees";
 
-// Department Section 
+// Department Section
 import DeptDashboard from "./pages/Department/DeptDashboard";
 import DeptEmployees from "./pages/Department/DeptEmployees";
 import Reports from "./pages/Department/Reports";
 
-// Employee Section 
+// Employee Section
 import EmployeeDashboard from "./pages/Employee/EmployeeDashboard";
 import Profile from "./pages/Employee/Profile";
 import Tasks from "./pages/Employee/Tasks";
@@ -46,25 +47,23 @@ function App() {
   return (
     <Router>
       <div className="bg-white dark:bg-gray-900 min-h-screen flex flex-col">
-        <Routes> 
+        <Toaster />
+        <Routes>
           {/* Landing Page */}
           <Route path="/" element={<LandingPage />} />
-
           {/* Auth */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
-
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/dept-heads" element={<DeptHeads />} />
+          <Route path="/admin/department" element={<DeptHeads />} />
           <Route path="/admin/employees" element={<Employees />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
-
           {/* Department Routes */}
           <Route path="/department/dashboard" element={<DeptDashboard />} />
+          <Route path="/department/dashboard/:id" element={<DeptDashboard />} />
           <Route path="/department/employees" element={<DeptEmployees />} />
           <Route path="/department/reports" element={<Reports />} />\
-
           {/* Employee Routes */}
           <Route path="/employee/dashboard" element={<EmployeeDashboard />} />
           <Route path="/employee/profile" element={<Profile />} />

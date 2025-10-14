@@ -1,15 +1,20 @@
 // src/pages/LoginPage.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
     // Simple validation
     if (!email || !password) {
       setError("Please fill all fields");
@@ -21,18 +26,30 @@ const LoginPage = () => {
       return;
     }
 
-    setError("");
-    // TODO: add login API call
-    console.log("Login:", { email, password });
-    navigate("/"); // redirect to landing/dashboard
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/login",
+        { email, password },
+        { withCredentials: true }
+      );
+      toast.success("Login successful!");
+      navigate("/admin/dashboard"); // example redirect
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred");
+    }
+    setLoading(false);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">
       <div className="bg-gray-800 p-10 rounded-2xl shadow-xl w-full max-w-md text-white">
-        <h2 className="text-3xl font-bold mb-6 text-center text-cyan-400">Login</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-cyan-400">
+          Login
+        </h2>
 
-        {error && <p className="bg-red-500 text-white p-2 mb-4 rounded">{error}</p>}
+        {error && (
+          <p className="bg-red-500 text-white p-2 mb-4 rounded">{error}</p>
+        )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input

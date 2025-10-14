@@ -41,8 +41,7 @@ export const loginController = asynchandler(async (req, res) => {
   // Generate token
   const token = generateToken(user._id);
   // Token generated for user login
-
-  setCookie(res, "token", token, 7 * 24 * 60 * 60 * 1000); // 7 day
+  setCookie(res, "jwttoken", token, 7 * 24 * 60 * 60 * 1000); // 7 day
 
   return res.json({
     success: true,

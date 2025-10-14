@@ -11,7 +11,7 @@ const Sidebar = ({ role }) => {
   const links = {
     admin: [
       { name: "Dashboard", path: "/admin/dashboard", icon: Home },
-      { name: "Department Heads", path: "/admin/dept-heads", icon: Users },
+      { name: "Department", path: "/admin/department", icon: Users },
       { name: "Employees", path: "/admin/employees", icon: Users },
       { name: "Settings", path: "/admin/settings", icon: Settings },
     ],

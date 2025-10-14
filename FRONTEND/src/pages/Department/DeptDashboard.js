@@ -4,10 +4,13 @@ import Chart from "../../components/Chart";
 import DashboardCard from "../../components/DashboardCard";
 import DatePickerCard from "../../components/DatePickerCard";
 import { deptDashboardData, deptReportsData } from "../../utils/data";
+import { useParams } from "react-router-dom";
 
 const DeptDashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+  const { id } = useParams();
 
   const handleDateChange = (month, year) => {
     setSelectedMonth(month);

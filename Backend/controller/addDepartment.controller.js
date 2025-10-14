@@ -7,7 +7,7 @@ import { User } from "../model/user.model.js";
  * Description: Allows only admin users to create a new department within their company.
  */
 const addDepartment = asyncHandler(async (req, res) => {
-  const admin = req.admin
+  const admin = req.admin;
   // Extract input data and validate
   const { department: departmentName, description } = req.body;
   if (!departmentName) {
@@ -32,7 +32,7 @@ const addDepartment = asyncHandler(async (req, res) => {
   });
 
   // Send success response
-  return res.status(201).json({
+  return res.status(200).json({
     message: "New department created successfully.",
     department: newDepartment,
   });
