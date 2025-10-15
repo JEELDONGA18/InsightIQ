@@ -42,9 +42,9 @@ const HeroSection = () => {
           data-aos-delay="400"
           className="flex flex-wrap justify-center gap-4 mt-8"
         >
-          <button className="px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white rounded-xl font-semibold shadow-lg transition">
+          <a href="/signup" className="px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white rounded-xl font-semibold shadow-lg transition">
             Get Started
-          </button>
+          </a>
           <button className="px-6 py-3 border border-gray-700 text-gray-300 rounded-xl hover:bg-gray-800 transition">
             Request a Demo
           </button>
