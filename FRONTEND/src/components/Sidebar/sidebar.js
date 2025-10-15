@@ -12,18 +12,11 @@ const Sidebar = ({ role }) => {
     admin: [
       { name: "Dashboard", path: "/admin/dashboard", icon: Home },
       { name: "Department", path: "/admin/department", icon: Users },
-      { name: "Employees", path: "/admin/employees", icon: Users },
       { name: "Settings", path: "/admin/settings", icon: Settings },
     ],
     deptHead: [
       { name: "Dashboard", path: "/department/dashboard", icon: Home },
-      { name: "Employees", path: "/department/employees", icon: Users },
       { name: "Reports", path: "/department/reports", icon: Clipboard },
-    ],
-    employee: [
-      { name: "Dashboard", path: "/employee/dashboard", icon: Home },
-      { name: "Tasks", path: "/employee/tasks", icon: Clipboard },
-      { name: "Profile", path: "/employee/profile", icon: Users },
     ],
   };
 

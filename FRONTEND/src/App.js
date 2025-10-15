@@ -19,17 +19,10 @@ import SignUpPage from "./pages/SignUpPage";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminSettings from "./pages/Admin/AdminSettings";
 import DeptHeads from "./pages/Admin/DeptHeads";
-import Employees from "./pages/Admin/Employees";
 
 // Department Section
 import DeptDashboard from "./pages/Department/DeptDashboard";
-import DeptEmployees from "./pages/Department/DeptEmployees";
 import Reports from "./pages/Department/Reports";
-
-// Employee Section
-import EmployeeDashboard from "./pages/Employee/EmployeeDashboard";
-import Profile from "./pages/Employee/Profile";
-import Tasks from "./pages/Employee/Tasks";
 
 const LandingPage = () => (
   <>
@@ -57,17 +50,10 @@ function App() {
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/department" element={<DeptHeads />} />
-          <Route path="/admin/employees" element={<Employees />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
           {/* Department Routes */}
           <Route path="/department/dashboard" element={<DeptDashboard />} />
-          <Route path="/department/dashboard/:id" element={<DeptDashboard />} />
-          <Route path="/department/employees" element={<DeptEmployees />} />
           <Route path="/department/reports" element={<Reports />} />\
-          {/* Employee Routes */}
-          <Route path="/employee/dashboard" element={<EmployeeDashboard />} />
-          <Route path="/employee/profile" element={<Profile />} />
-          <Route path="/employee/tasks" element={<Tasks />} />
         </Routes>
       </div>
     </Router>
