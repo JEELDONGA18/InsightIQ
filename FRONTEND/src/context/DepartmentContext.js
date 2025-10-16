@@ -2,57 +2,115 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const DepartmentContext = createContext();
-
 export const useDepartments = () => useContext(DepartmentContext);
 
+axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.withCredentials = true;
+
 export const DepartmentProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
   const [departments, setDepartments] = useState([]);
+  const [departmentName, setDepartmentName] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Fetch departments on mount
+  // Check auth on mount
   useEffect(() => {
-    fetchDepartments();
+    const init = async () => {
+      await checkAuth();
+      setLoading(false); // stop loading after auth check
+    };
+    init();
   }, []);
 
-  const fetchDepartments = async () => {
-    setLoading(true);
+  // Fetch departments and identify department when user is set
+  useEffect(() => {
+    if (!user) {
+      setDepartmentName(""); // reset departmentName if no user
+      return;
+    }
+
+    const initialize = async () => {
+      setLoading(true);
+      await fetchDepartments();
+      await identifyDepartment();
+      setLoading(false);
+    };
+    initialize();
+  }, [user]);
+
+  useEffect(()=>{
+    console.log(departmentName);
+    
+  },[departmentName])
+
+  // Check if user is logged in
+  const checkAuth = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/host/adminpage", {
-        withCredentials: true,
-      });
+      const { data } = await axios.get("/api/check-auth");
+      if (data.success) {
+        setUser(data.user);
+      } else {
+        // Failed auth, reset everything
+        setUser(null);
+        setDepartmentName("");
+        setDepartments([]);
+      }
+    } catch {
+      setUser(null);
+      setDepartmentName("");
+      setDepartments([]);
+    }
+  };
+
+  // Fetch all departments (for admin)
+  const fetchDepartments = async () => {
+    try {
+      const res = await axios.get("/api/host/adminpage");
       setDepartments(res.data.departments || []);
     } catch {
       setDepartments([]);
     }
-    setLoading(false);
   };
 
-  // Add department and update state
+  // Identify the user's department
+  const identifyDepartment = async () => {
+    try {
+      const res = await axios.get("/api/getDepartment");
+      setDepartmentName(res.data.departmentName || "");
+    } catch {
+      setDepartmentName("");
+    }
+  };
+
+  // Add a new department (admin)
   const addDepartment = async (department) => {
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/addDepartment",
-        department,
-        { withCredentials: true }
-      );
-      const data = res.data;
+      const res = await axios.post("/api/addDepartment", department);
       if (res.status === 200) {
-        setDepartments((prev) => [...prev, data.department]);
+        setDepartments((prev) => [...prev, res.data.department]);
         return { success: true };
-      } else {
-        return {
-          success: false,
-          message: data.message || "Failed to add department",
-        };
       }
+      return { success: false, message: res.data.message || "Failed to add department" };
     } catch {
       return { success: false, message: "Network error" };
     }
   };
 
   return (
-    <DepartmentContext.Provider value={{ departments, loading, addDepartment }}>
+    <DepartmentContext.Provider
+      value={{
+        user,
+        setUser,
+        departments,
+        departmentName,
+        loading,
+        addDepartment,
+        fetchDepartments,
+        identifyDepartment,
+      }}
+    >
       {children}
     </DepartmentContext.Provider>
   );
 };
+ 

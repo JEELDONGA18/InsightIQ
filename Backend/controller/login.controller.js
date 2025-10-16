@@ -3,7 +3,7 @@ import { User } from "../model/user.model.js";
 import { setCookie } from "../utils/cookie.js";
 import { generateToken } from "../utils/jwt.js";
 
-export const loginController = asynchandler(async (req, res) => {
+const loginController = asynchandler(async (req, res) => {
   if (!req.body) {
     return res.status(400).json({
       error: "Login failed",
@@ -46,5 +46,16 @@ export const loginController = asynchandler(async (req, res) => {
   return res.json({
     success: true,
     message: "Login successful",
+    user: user._id
   });
 });
+
+const checkAuthUser = (req, res) =>{
+  return res.status(200).json({
+    success: true,
+    message: "User is authenticated",
+    user: req.user, 
+  });
+}
+
+export { checkAuthUser, loginController};

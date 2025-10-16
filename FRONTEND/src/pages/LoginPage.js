@@ -1,43 +1,41 @@
-// src/pages/LoginPage.js
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useDepartments } from "../context/DepartmentContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const { setUser } = useDepartments();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    // Simple validation
-    if (!email || !password) {
-      setError("Please fill all fields");
-      return;
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError("Please enter a valid email");
-      return;
-    }
+  // ✅ Initialize react-hook-form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
 
+  // ✅ Submit handler
+  const onSubmit = async (data) => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/login",
-        { email, password },
+        "http://localhost:5000/api/login",
+        data,
         { withCredentials: true }
       );
+
       toast.success("Login successful!");
-      navigate("/admin/dashboard"); // example redirect
+      setUser(res.data.user);
+
+      console.log(res.data.user);
+      
+
+      reset(); // clear the form
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
+      toast.error(err.response?.data?.message || "Login failed");
     }
-    setLoading(false);
   };
 
   return (
@@ -47,40 +45,50 @@ const LoginPage = () => {
           Login
         </h2>
 
-        {error && (
-          <p className="bg-red-500 text-white p-2 mb-4 rounded">{error}</p>
-        )}
-
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          {/* Email Field */}
           <input
             type="email"
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             className="px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Invalid email format",
+              },
+            })}
           />
+          {errors.email && (
+            <p className="text-red-400 text-sm">{errors.email.message}</p>
+          )}
+
+          {/* Password Field */}
           <input
             type="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
             className="px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters long",
+              },
+            })}
           />
+          {errors.password && (
+            <p className="text-red-400 text-sm">{errors.password.message}</p>
+          )}
 
+          {/* Submit Button */}
           <button
             type="submit"
-            className="mt-4 px-4 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg shadow-md transition"
+            disabled={isSubmitting}
+            className="mt-4 px-4 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg shadow-md transition disabled:opacity-60"
           >
-            Login
+            {isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
-
-        <p className="mt-4 text-gray-400 text-sm text-center">
-          Don't have an account?{" "}
-          <a href="/signup" className="text-cyan-400 hover:underline">
-            Sign Up
-          </a>
-        </p>
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ const company = asynchandler(async (req, res) => {
 
   const newCompany = await Company.create({ name });
   const admin = await Department.create({
-    name: "Admin",
+    name: "admin",
     description: `Admin department for ${name}`,
     company: newCompany._id,
   });

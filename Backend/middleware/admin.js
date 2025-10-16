@@ -6,7 +6,7 @@ const isAdmin = asynchandler(async (req, res, next) => {
       const userId = req.user; // ID of currently logged-in user (from auth middleware)
     
       // Check if user exists
-      const user = await User.findById(userId);
+      const user = await User.findById(userId).select("-password");
       if (!user) {
         return res.status(404).json({ message: "User not found." });
       }
