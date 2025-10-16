@@ -13,7 +13,6 @@ import SignUpPage from "./pages/SignUpPage";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminSettings from "./pages/Admin/AdminSettings";
 import DeptHeads from "./pages/Admin/DeptHeads";
-import Employees from "./pages/Admin/Employees";
 import DeptDashboard from "./pages/Department/DeptDashboard";
 import Reports from "./pages/Department/Reports";
 import { useDepartments } from "./context/DepartmentContext.js";
@@ -58,12 +57,10 @@ function App() {
             <>
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="/admin/department" element={<DeptHeads />} />
-              <Route path="/admin/employees" element={<Employees />} />
               <Route path="/admin/settings" element={<AdminSettings />} />
 
               <Route path="/department/dashboard" element={<DeptDashboard />} />
               <Route path="/department/dashboard/:id" element={<DeptDashboard />} />
-              <Route path="/department/employees" element={<DeptEmployees />} />
               <Route path="/department/reports" element={<Reports />} />
             </>
           )}
@@ -73,7 +70,6 @@ function App() {
             <>
               <Route path="/department/dashboard" element={<DeptDashboard />} />
               <Route path="/department/dashboard/:id" element={<DeptDashboard />} />
-              <Route path="/department/employees" element={<DeptEmployees />} />
               <Route path="/department/reports" element={<Reports />} />
             </>
           )}
