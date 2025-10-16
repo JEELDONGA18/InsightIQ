@@ -29,7 +29,8 @@ const Table = ({ columns, data, actions }) => {
               className="border-b border-cyan-500/10 hover:bg-gray-800/70 hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-all duration-300"
             >
               {columns.map((col, i) => {
-                const key = typeof col === "string" ? col.toLowerCase() : col.key;
+                const key =
+                  typeof col === "string" ? col.toLowerCase() : col.key;
                 return (
                   <td key={i} className="px-4 py-3 text-sm text-cyan-100">
                     {row[key]}

@@ -15,7 +15,6 @@ import AdminSettings from "./pages/Admin/AdminSettings";
 import DeptHeads from "./pages/Admin/DeptHeads";
 import Employees from "./pages/Admin/Employees";
 import DeptDashboard from "./pages/Department/DeptDashboard";
-import DeptEmployees from "./pages/Department/DeptEmployees";
 import Reports from "./pages/Department/Reports";
 import { useDepartments } from "./context/DepartmentContext.js";
 
