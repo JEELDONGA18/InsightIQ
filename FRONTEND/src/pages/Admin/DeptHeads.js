@@ -5,7 +5,13 @@ import { useDepartments } from "../../context/DepartmentContext";
 import DepartmentCard from "../../components/DepartmentCard";
 
 const DeptHeads = () => {
-  const { departments, loading, addDepartment } = useDepartments();
+  const {
+    departments,
+    loading,
+    addDepartment,
+    editDepartment,
+    deleteDepartment,
+  } = useDepartments();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingHead, setEditingHead] = useState(null);
@@ -42,15 +48,27 @@ const DeptHeads = () => {
       setFormLoading(false);
       return;
     }
-    // Only add, not edit, for now
-    const result = await addDepartment(form);
-    console.log(result);
+    let result;
+    if (editingHead) {
+      result = await editDepartment(editingHead._id, {
+        name: form.department,
+        description: form.description,
+      });
+    } else {
+      result = await addDepartment(form);
+    }
     if (result.success) {
       closeModal();
     } else {
       setFormError(result.message);
     }
     setFormLoading(false);
+  };
+
+  const handleDelete = async (dept) => {
+    if (window.confirm(`Are you sure you want to delete "${dept.name}"?`)) {
+      await deleteDepartment(dept._id);
+    }
   };
 
   return (
@@ -83,7 +101,7 @@ const DeptHeads = () => {
                 key={dept._id}
                 department={dept}
                 onEdit={openEditModal}
-                onDelete={(d) => alert(`Deleting ${d.name}`)}
+                onDelete={handleDelete}
               />
             ))
           )}
