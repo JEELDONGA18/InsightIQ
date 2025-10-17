@@ -5,18 +5,18 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { DepartmentProvider } from "./context/DepartmentContext";
 import { AdminProvider } from "./context/AdminContext";
-import { BrowserRouter } from "react-router-dom";
+import { DepartmentFinanceProvider } from "./context/DepartmentFinanceContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <AdminProvider>
-        <DepartmentProvider>
+    <AdminProvider>
+      <DepartmentProvider>
+        <DepartmentFinanceProvider>
           <App />
-        </DepartmentProvider>
-      </AdminProvider>
-    </BrowserRouter>
+        </DepartmentFinanceProvider>
+      </DepartmentProvider>
+    </AdminProvider>
   </React.StrictMode>
 );
 

@@ -25,6 +25,11 @@ const transactionSchema = new Schema(
       required: true,
       default: Date.now,
     },
+    description: {
+      type: String,
+      trim: true,
+      default: "",
+    },
   },
   {
     timestamps: true,

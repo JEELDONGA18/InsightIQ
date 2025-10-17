@@ -43,10 +43,7 @@ export const AdminProvider = ({ children }) => {
   // stable fetch functions
   const fetchYearSummary = useCallback(async () => {
     try {
-      const res = await axios.get(
-        "/api/host/currentYearSummary",
-        { withCredentials: true }
-      );
+      const res = await axios.get("/api/host/currentYearSummary");
       setYearSummary(res.data || { income: 0, expense: 0, total: 0 });
     } catch {
       setYearSummary({ income: 0, expense: 0, total: 0 });
@@ -55,10 +52,7 @@ export const AdminProvider = ({ children }) => {
 
   const fetchMonthwise = useCallback(async () => {
     try {
-      const res = await axios.get(
-        "/api/host/monthwiseIncomeExpense",
-        { withCredentials: true }
-      );
+      const res = await axios.get("/api/host/monthwiseIncomeExpense");
       setMonthwise(
         res.data || { months: [], income: [], expense: [], total: [] }
       );
@@ -69,10 +63,7 @@ export const AdminProvider = ({ children }) => {
 
   const fetchDepartmentPerformance = useCallback(async () => {
     try {
-      const res = await axios.get(
-        "/api/host/departmentPerformance",
-        { withCredentials: true }
-      );
+      const res = await axios.get("/api/host/departmentPerformance");
       setDepartmentPerformance(res.data.transactions || []);
     } catch {
       setDepartmentPerformance([]);
@@ -82,8 +73,7 @@ export const AdminProvider = ({ children }) => {
   const fetchServiceUtilization = useCallback(async (month, year) => {
     try {
       const res = await axios.get(
-        `/api/host/MonthYear?month=${month}&year=${year}`,
-        { withCredentials: true }
+        `/api/host/MonthYear?month=${month}&year=${year}`
       );
       setServiceUtilization(
         res.data || { labels: ["Income", "Expense"], data: [0, 0] }
@@ -94,10 +84,7 @@ export const AdminProvider = ({ children }) => {
   }, []);
   const fetchDepartmentYearTotals = useCallback(async () => {
     try {
-      const res = await axios.get(
-        "/api/host/departmentYearTotals",
-        { withCredentials: true }
-      );
+      const res = await axios.get("/api/host/departmentYearTotals");
       setDepartmentYearTotals(
         res.data || {
           departments: [],

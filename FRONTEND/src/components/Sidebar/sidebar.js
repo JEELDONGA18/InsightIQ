@@ -5,8 +5,12 @@ import { motion } from "framer-motion";
 import { useDepartments } from "../../context/DepartmentContext";
 
 const Sidebar = ({ role }) => {
+  const { departments } = useDepartments();
+  console.log("departments in sidebar", departments);
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const match = location.pathname.match(/\/department\/dashboard\/([^/]+)/);
+  const currentDeptId = match ? match[1] : departments?.[0]?._id;
   const {logout} = useDepartments();
 
   // Sidebar links with icons
@@ -18,8 +22,16 @@ const Sidebar = ({ role }) => {
       { name: "Settings", path: "/admin/settings", icon: Settings },
     ],
     deptHead: [
-      { name: "Dashboard", path: "/department/dashboard", icon: Home },
-      { name: "Reports", path: "/department/reports", icon: Clipboard },
+      {
+        name: "Dashboard",
+        path: `/department/dashboard/${currentDeptId}`,
+        icon: Home,
+      },
+      {
+        name: "Reports",
+        path: `/department/reports/${currentDeptId}`,
+        icon: Clipboard,
+      },
     ],
   };
 

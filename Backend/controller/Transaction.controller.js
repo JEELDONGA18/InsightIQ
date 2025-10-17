@@ -5,26 +5,29 @@ import { User } from "../model/user.model.js";
 
 export const addTransaction = asynchandler(async (req, res) => {
   const user = req.user;
-  const { amount, type } = req.body;
+  const { department, amount, type, description } = req.body;
 
   const date = req.body.date || new Date();
 
-  if (!amount || !type) {
-    return res.status(400).json({ message: "Amount or type is missing." });
+  if (!department || !amount || !type) {
+    return res
+      .status(400)
+      .json({ message: "Amount or type or description is missing." });
   }
 
-  const userDepartment = await User.findById(user).select("department");
+  // const userDepartment = await User.findById(user).select("department");
 
-  if (!userDepartment || !userDepartment.department) {
-    return res.status(404).json({ message: "User's department not found." });
-  }
+  // if (!userDepartment || !userDepartment.department) {
+  //   return res.status(404).json({ message: "User's department not found." });
+  // }
 
   // Create transaction
   const trans = await Transaction.create({
-    department: userDepartment.department,
+    department: department,
     amount,
     type,
     date,
+    description,
   });
 
   return res.status(200).json({
@@ -393,8 +396,6 @@ export const getMonthYear = asynchandler(async (req, res) => {
   });
 });
 
-
-
 export const getDepartmentYearTotals = asynchandler(async (req, res) => {
   const userId = req.user.userId || req.user._id || req.user;
 
@@ -459,5 +460,161 @@ export const getDepartmentYearTotals = asynchandler(async (req, res) => {
     expense: rows.map((r) => r.expense),
     total: rows.map((r) => r.total),
     rows,
+  });
+});
+
+export const getDepartmentFinanceInsights = asynchandler(async (req, res) => {
+  const { id } = req.params;
+  const { month, year } = req.query;
+
+  if (!id || !month || !year) {
+    return res
+      .status(400)
+      .json({ message: "Department id, month, and year required." });
+  }
+
+  // Validate department exists
+  const department = await Department.findById(id);
+  if (!department) {
+    return res.status(404).json({ message: "Department not found." });
+  }
+
+  // Get start/end dates for selected month/year
+  const start = new Date(year, month, 1);
+  const end = new Date(year, Number(month) + 1, 1);
+
+  // Get all transactions for department in month/year
+  const transactions = await Transaction.find({
+    department: id,
+    date: { $gte: start, $lt: end },
+  }).lean();
+
+  // Aggregate totals
+  let totalIncome = 0,
+    totalExpense = 0;
+  const daysInMonth = new Date(year, Number(month) + 1, 0).getDate();
+  const dayWiseIncome = Array(daysInMonth).fill(0);
+  const dayWiseExpense = Array(daysInMonth).fill(0);
+
+  transactions.forEach((tx) => {
+    const day = new Date(tx.date).getDate() - 1; // 0-based index
+    if (tx.type === "income") {
+      totalIncome += tx.amount;
+      dayWiseIncome[day] += tx.amount;
+    } else if (tx.type === "expense") {
+      totalExpense += tx.amount;
+      dayWiseExpense[day] += tx.amount;
+    }
+  });
+
+  res.json({
+    department: { id: department._id, name: department.name },
+    month,
+    year,
+    totalIncome,
+    totalExpense,
+    net: totalIncome - totalExpense,
+    dayWiseIncome,
+    dayWiseExpense,
+    days: Array.from({ length: daysInMonth }, (_, i) => i + 1),
+  });
+});
+
+export const getDepartmentTransactions = asynchandler(async (req, res) => {
+  const { id } = req.params;
+  if (!id) return res.status(400).json({ message: "Department id required." });
+
+  // Optionally, filter by month/year if you want
+  const { month, year } = req.query;
+  let filter = { department: id };
+  if (month && year) {
+    const start = new Date(year, month, 1);
+    const end = new Date(year, Number(month) + 1, 1);
+    filter.date = { $gte: start, $lt: end };
+  }
+
+  const transactions = await Transaction.find(filter).sort({ date: -1 }).lean();
+
+  res.json({
+    transactions: transactions.map((tx) => ({
+      _id: tx._id,
+      type: tx.type,
+      amount: tx.amount,
+      description: tx.description,
+      date: tx.date,
+    })),
+  });
+});
+
+// GET /api/host/department/:id/report?month=MM&year=YYYY
+export const getDepartmentReport = asynchandler(async (req, res) => {
+  const { id } = req.params;
+  const { month, year } = req.query;
+
+  if (!id || !month || !year) {
+    return res
+      .status(400)
+      .json({ message: "Department id, month, and year required." });
+  }
+
+  const department = await Department.findById(id);
+  if (!department) {
+    return res.status(404).json({ message: "Department not found." });
+  }
+
+  // Date range for the month
+  const start = new Date(year, month, 1);
+  const end = new Date(year, Number(month) + 1, 1);
+
+  // Fetch transactions for this department and month
+  const transactions = await Transaction.find({
+    department: id,
+    date: { $gte: start, $lt: end },
+  }).lean();
+
+  // Summary calculations
+  let totalIncome = 0,
+    totalExpense = 0;
+  const dayCount = new Date(year, Number(month) + 1, 0).getDate();
+  const dayWiseIncome = Array(dayCount).fill(0);
+  const dayWiseExpense = Array(dayCount).fill(0);
+
+  transactions.forEach((tx) => {
+    const day = new Date(tx.date).getDate() - 1;
+    if (tx.type === "income") {
+      totalIncome += tx.amount;
+      dayWiseIncome[day] += tx.amount;
+    } else if (tx.type === "expense") {
+      totalExpense += tx.amount;
+      dayWiseExpense[day] += tx.amount;
+    }
+  });
+
+  // Performance: Net profit per day
+  const dayWiseNet = dayWiseIncome.map((inc, i) => inc - dayWiseExpense[i]);
+
+  res.json({
+    department: {
+      id: department._id,
+      name: department.name,
+    },
+    summaryCards: [
+      { title: "Total Income", value: `₹${totalIncome}` },
+      { title: "Total Expense", value: `₹${totalExpense}` },
+      { title: "Net Profit", value: `₹${totalIncome - totalExpense}` },
+      { title: "Transactions", value: transactions.length },
+    ],
+    performance: {
+      labels: Array.from({ length: dayCount }, (_, i) => `Day ${i + 1}`),
+      data: dayWiseNet,
+    },
+    transactions: transactions.map((tx) => ({
+      date: tx.date,
+      type: tx.type,
+      amount: tx.amount,
+      description: tx.description || "",
+    })),
+    month,
+    year,
   });
 });

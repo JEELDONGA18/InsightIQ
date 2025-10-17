@@ -18,6 +18,9 @@ const DeptHeads = () => {
   const [form, setForm] = useState({ department: "", description: "" });
   const [formError, setFormError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
+  // Custom delete confirmation modal state
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [pendingDeleteDept, setPendingDeleteDept] = useState(null);
 
   const openCreateModal = () => {
     setEditingHead(null);
@@ -65,10 +68,25 @@ const DeptHeads = () => {
     setFormLoading(false);
   };
 
-  const handleDelete = async (dept) => {
-    if (window.confirm(`Are you sure you want to delete "${dept.name}"?`)) {
-      await deleteDepartment(dept._id);
+  // Open custom delete modal
+  const handleDelete = (dept) => {
+    setPendingDeleteDept(dept);
+    setDeleteModalOpen(true);
+  };
+
+  // Confirm delete action
+  const confirmDelete = async () => {
+    if (pendingDeleteDept) {
+      await deleteDepartment(pendingDeleteDept._id);
+      setDeleteModalOpen(false);
+      setPendingDeleteDept(null);
     }
+  };
+
+  // Cancel delete action
+  const cancelDelete = () => {
+    setDeleteModalOpen(false);
+    setPendingDeleteDept(null);
   };
 
   return (
@@ -142,6 +160,38 @@ const DeptHeads = () => {
               {formLoading ? "Saving..." : editingHead ? "Update" : "Create"}
             </button>
           </form>
+        </Modal>
+
+        {/* Custom Delete Confirmation Modal */}
+        <Modal
+          isOpen={deleteModalOpen}
+          onClose={cancelDelete}
+          title="Confirm Delete"
+        >
+          <div className="flex flex-col gap-4 items-center justify-center p-2">
+            <p className="text-lg text-cyan-300 text-center">
+              Are you sure you want to delete
+              <span className="font-bold text-cyan-400">
+                {" "}
+                {pendingDeleteDept?.name}{" "}
+              </span>
+              ?
+            </p>
+            <div className="flex gap-4 mt-2">
+              <button
+                onClick={confirmDelete}
+                className="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-xl text-white font-medium shadow-[0_0_10px_rgba(255,0,0,0.3)]"
+              >
+                Yes, Delete
+              </button>
+              <button
+                onClick={cancelDelete}
+                className="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-xl text-white font-medium"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
         </Modal>
       </main>
     </div>
