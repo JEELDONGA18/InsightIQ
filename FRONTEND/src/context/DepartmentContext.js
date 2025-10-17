@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const DepartmentContext = createContext();
 export const useDepartments = () => useContext(DepartmentContext);
@@ -11,8 +11,9 @@ axios.defaults.withCredentials = true;
 export const DepartmentProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [departments, setDepartments] = useState([]);
-  const [departmentName, setDepartmentName] = useState("");
+  const [departmentName, setDepartmentName] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Check auth on mount
   useEffect(() => {
@@ -26,10 +27,9 @@ export const DepartmentProvider = ({ children }) => {
   // Fetch departments and identify department when user is set
   useEffect(() => {
     if (!user) {
-      setDepartmentName(""); // reset departmentName if no user
+      setDepartmentName(null); // reset departmentName if no user
       return;
     }
-
     const initialize = async () => {
       setLoading(true);
       await fetchDepartments();
@@ -39,10 +39,9 @@ export const DepartmentProvider = ({ children }) => {
     initialize();
   }, [user]);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(departmentName);
-    
-  },[departmentName])
+  }, [departmentName]);
 
   // Check if user is logged in
   const checkAuth = async () => {
@@ -53,12 +52,12 @@ export const DepartmentProvider = ({ children }) => {
       } else {
         // Failed auth, reset everything
         setUser(null);
-        setDepartmentName("");
+        setDepartmentName(null);
         setDepartments([]);
       }
     } catch {
       setUser(null);
-      setDepartmentName("");
+      setDepartmentName(null);
       setDepartments([]);
     }
   };
@@ -77,9 +76,9 @@ export const DepartmentProvider = ({ children }) => {
   const identifyDepartment = async () => {
     try {
       const res = await axios.get("/api/getDepartment");
-      setDepartmentName(res.data.departmentName || "");
+      setDepartmentName(res.data.departmentName || null);
     } catch {
-      setDepartmentName("");
+      setDepartmentName(null);
     }
   };
 
@@ -91,10 +90,38 @@ export const DepartmentProvider = ({ children }) => {
         setDepartments((prev) => [...prev, res.data.department]);
         return { success: true };
       }
-      return { success: false, message: res.data.message || "Failed to add department" };
+      return {
+        success: false,
+        message: res.data.message || "Failed to add department",
+      };
     } catch {
       return { success: false, message: "Network error" };
     }
+  };
+
+  const logout = async () => {
+    // Clear local state immediately
+    setUser(null);
+    setDepartmentName(null);
+    setDepartments([]);
+
+    // Redirect to home page immediately
+    navigate("/", { replace: true });
+
+    try {
+      // Attempt to log out on the server
+      const res = await axios.get("/api/logOut");
+      if (res.data.success) {
+        console.log("Logged out:", res.data.message);
+      }
+    } catch (error) {
+      console.error(
+        "Logout failed on server:",
+        error.response?.data?.message || error.message
+      );
+    }
+
+    return { success: true };
   };
 
   return (
@@ -108,10 +135,10 @@ export const DepartmentProvider = ({ children }) => {
         addDepartment,
         fetchDepartments,
         identifyDepartment,
+        logout,
       }}
     >
       {children}
     </DepartmentContext.Provider>
   );
 };
- 

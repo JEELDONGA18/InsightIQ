@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./components/LandingPage/Navbar";
 import HeroSection from "./components/LandingPage/HeroSection";
@@ -16,6 +16,8 @@ import DeptHeads from "./pages/Admin/DeptHeads";
 import DeptDashboard from "./pages/Department/DeptDashboard";
 import Reports from "./pages/Department/Reports";
 import { useDepartments } from "./context/DepartmentContext.js";
+import { useEffect } from "react";
+import { LogOut } from "lucide-react";
 
 const LandingPage = () => (
   <>
@@ -30,8 +32,9 @@ const LandingPage = () => (
 );
 
 function App() {
-  const { user, departmentName, loading } = useDepartments();
+  const { user, departmentName, loading, logout } = useDepartments();
   console.log(departmentName);
+  const navigate = useNavigate();
   
 
   if (loading) {
@@ -39,7 +42,6 @@ function App() {
   }
 
   return (
-    <Router>
       <div className="bg-white dark:bg-gray-900 min-h-screen flex flex-col">
         <Toaster />
 
@@ -92,7 +94,6 @@ function App() {
           )}
         </Routes>
       </div>
-    </Router> 
   );
 }
 
