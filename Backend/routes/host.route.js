@@ -16,6 +16,7 @@ import {
   deleteDepartment,
   editDepartment,
 } from "../controller/department.controller.js";
+import { getAllEmployeesByCompany } from "../controller/getEmployee.controller.js";
 
 const adminRoute = Router();
 
@@ -30,5 +31,6 @@ adminRoute.delete("/deleteDepartment/:id", auth, isAdmin, deleteDepartment);
 adminRoute.get("/MonthYear", auth, isAdmin, getMonthYear);
 adminRoute.get("/monthwisetransaction", auth, isAdmin, getmonthwiseTransaction);
 adminRoute.get("/yearwisetransaction", auth, isAdmin, getyearwiseTransaction);
+adminRoute.get("/getEmployee", auth, isAdmin, getAllEmployeesByCompany)
 
 export default adminRoute;

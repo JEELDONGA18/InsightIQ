@@ -23,7 +23,7 @@ import DeptDashboard from "./pages/Department/DeptDashboard";
 import Reports from "./pages/Department/Reports";
 import { useDepartments } from "./context/DepartmentContext.js";
 import { useEffect } from "react";
-import { LogOut } from "lucide-react";
+import EmployeePage from "./pages/Employee.js";
 
 const LandingPage = () => (
   <>
@@ -71,6 +71,7 @@ function App() {
           <>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/department" element={<DeptHeads />} />
+            <Route path="/admin/employee" element={<EmployeePage />} />
             <Route path="/admin/settings" element={<AdminSettings />} />
 
             <Route path="/department/dashboard" element={<DeptDashboard />} />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, LogOut, Home, Users, Settings, Clipboard } from "lucide-react"; // import needed icons
+import { Menu, X, LogOut, Home, Users, Settings, Clipboard, icons } from "lucide-react"; // import needed icons
 import { motion } from "framer-motion";
 import { useDepartments } from "../../context/DepartmentContext";
 
@@ -14,6 +14,7 @@ const Sidebar = ({ role }) => {
     admin: [
       { name: "Dashboard", path: "/admin/dashboard", icon: Home },
       { name: "Department", path: "/admin/department", icon: Users },
+      { name: "Employee", path: "/admin/employee", icon: Users },
       { name: "Settings", path: "/admin/settings", icon: Settings },
     ],
     deptHead: [
