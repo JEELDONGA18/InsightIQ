@@ -58,4 +58,23 @@ const checkAuthUser = (req, res) =>{
   });
 }
 
-export { checkAuthUser, loginController};
+const logOut = (req, res) => {
+  // Check if cookie exists
+  const token = req.cookies?.jwttoken;
+
+  if (!token) {
+    return res.status(400).json({ message: "No token found" });
+  }
+
+  // Clear the cookie from the client
+  res.clearCookie("jwttoken", {
+    httpOnly: true, // must match cookie options when it was set
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+
+  res.status(200).json({ message: "Logged out successfully" });
+};
+
+
+export { checkAuthUser, loginController, logOut};

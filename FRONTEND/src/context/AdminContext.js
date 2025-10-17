@@ -11,8 +11,9 @@ import axios from "axios";
 const AdminContext = createContext();
 export const useAdmin = () => useContext(AdminContext);
 
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "http://localhost:5000"
 axios.defaults.withCredentials = true;
+
 export const AdminProvider = ({ children }) => {
   const [yearSummary, setYearSummary] = useState({
     income: 0,

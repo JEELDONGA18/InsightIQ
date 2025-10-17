@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import {
-  Menu,
-  X,
-  LogOut,
-  Home,
-  Users,
-  Settings,
-  Clipboard,
-} from "lucide-react"; // import needed icons
+import { Menu, X, LogOut, Home, Users, Settings, Clipboard, icons } from "lucide-react"; // import needed icons
 import { motion } from "framer-motion";
 import { useDepartments } from "../../context/DepartmentContext";
 
@@ -19,12 +11,14 @@ const Sidebar = ({ role }) => {
   const [isOpen, setIsOpen] = useState(false);
   const match = location.pathname.match(/\/department\/dashboard\/([^/]+)/);
   const currentDeptId = match ? match[1] : departments?.[0]?._id;
+  const {logout} = useDepartments();
 
   // Sidebar links with icons
   const links = {
     admin: [
       { name: "Dashboard", path: "/admin/dashboard", icon: Home },
       { name: "Department", path: "/admin/department", icon: Users },
+      { name: "Employee", path: "/admin/employee", icon: Users },
       { name: "Settings", path: "/admin/settings", icon: Settings },
     ],
     deptHead: [
@@ -102,7 +96,7 @@ const Sidebar = ({ role }) => {
 
         {/* Logout Button */}
         <div className="p-6 border-t border-gray-800">
-          <button className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-800 hover:bg-cyan-600 text-gray-100 font-medium rounded-lg transition-all duration-300">
+          <button onClick={logout} className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-800 hover:bg-cyan-600 text-gray-100 font-medium rounded-lg transition-all duration-300">
             <LogOut size={16} />
             Logout
           </button>

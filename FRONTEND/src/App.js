@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./components/LandingPage/Navbar";
@@ -21,6 +22,8 @@ import DeptHeads from "./pages/Admin/DeptHeads";
 import DeptDashboard from "./pages/Department/DeptDashboard";
 import Reports from "./pages/Department/Reports";
 import { useDepartments } from "./context/DepartmentContext.js";
+import { useEffect } from "react";
+import EmployeePage from "./pages/Employee.js";
 
 const LandingPage = () => (
   <>
@@ -35,33 +38,41 @@ const LandingPage = () => (
 );
 
 function App() {
-  const { user, departmentName, loading } = useDepartments();
+  const { user, departmentName, loading, logoutToogle, setLogoutToggle } = useDepartments();
   console.log(departmentName);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (logoutToogle) {
+      navigate("/", { replace: true });
+      setLogoutToggle(false);
+    }
+  }, [logoutToogle]);
 
   if (loading) {
     return <div className="text-center text-white mt-10">Loading...</div>;
   }
 
   return (
-    <Router>
-      <div className="bg-white dark:bg-gray-900 min-h-screen flex flex-col">
-        <Toaster />
+    <div className="bg-white dark:bg-gray-900 min-h-screen flex flex-col">
+      <Toaster />
 
-        <Routes>
-          {!user && (
-            <>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignUpPage />} />
-            </>
-          )}
+      <Routes>
+        {!user && (
+          <>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+          </>
+        )}
 
-          {/* Admin users (full access to admin + department routes) */}
-          {user && departmentName === "admin" && (
-            <>
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              <Route path="/admin/department" element={<DeptHeads />} />
-              <Route path="/admin/settings" element={<AdminSettings />} />
+        {/* Admin users (full access to admin + department routes) */}
+        {user && departmentName === "admin" && (
+          <>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/department" element={<DeptHeads />} />
+            <Route path="/admin/employee" element={<EmployeePage />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
 
               <Route
                 path="/department/dashboard/:id"
