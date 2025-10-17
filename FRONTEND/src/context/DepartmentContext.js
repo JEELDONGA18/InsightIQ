@@ -13,6 +13,7 @@ export const DepartmentProvider = ({ children }) => {
   const [departments, setDepartments] = useState([]);
   const [departmentName, setDepartmentName] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [logoutToogle, setLogoutToggle] = useState(false)
   const navigate = useNavigate();
 
   // Check auth on mount
@@ -114,6 +115,7 @@ export const DepartmentProvider = ({ children }) => {
       if (res.data.success) {
         console.log("Logged out:", res.data.message);
       }
+      setLogoutToggle(true);
     } catch (error) {
       console.error(
         "Logout failed on server:",
@@ -136,6 +138,8 @@ export const DepartmentProvider = ({ children }) => {
         fetchDepartments,
         identifyDepartment,
         logout,
+        logoutToogle,
+        setLogoutToggle
       }}
     >
       {children}

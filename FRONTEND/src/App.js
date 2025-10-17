@@ -1,5 +1,11 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./components/LandingPage/Navbar";
 import HeroSection from "./components/LandingPage/HeroSection";
@@ -32,68 +38,92 @@ const LandingPage = () => (
 );
 
 function App() {
-  const { user, departmentName, loading, logout } = useDepartments();
+  const { user, departmentName, loading, logoutToogle, setLogoutToggle } = useDepartments();
   console.log(departmentName);
   const navigate = useNavigate();
-  
+
+  useEffect(() => {
+    if (logoutToogle) {
+      navigate("/", { replace: true });
+      setLogoutToggle(false);
+    }
+  }, [logoutToogle]);
 
   if (loading) {
     return <div className="text-center text-white mt-10">Loading...</div>;
   }
 
   return (
-      <div className="bg-white dark:bg-gray-900 min-h-screen flex flex-col">
-        <Toaster />
+    <div className="bg-white dark:bg-gray-900 min-h-screen flex flex-col">
+      <Toaster />
 
-        <Routes>
-          {!user && (
-            <>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignUpPage />} />
-            </>
-          )}
+      <Routes>
+        {!user && (
+          <>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+          </>
+        )}
 
-          {/* Admin users (full access to admin + department routes) */}
-          {user && departmentName === "admin" && (
-            <>
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              <Route path="/admin/department" element={<DeptHeads />} />
-              <Route path="/admin/settings" element={<AdminSettings />} />
+        {/* Admin users (full access to admin + department routes) */}
+        {user && departmentName === "admin" && (
+          <>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/department" element={<DeptHeads />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
 
-              <Route path="/department/dashboard" element={<DeptDashboard />} />
-              <Route path="/department/dashboard/:id" element={<DeptDashboard />} />
-              <Route path="/department/reports" element={<Reports />} />
-            </>
-          )}
+            <Route path="/department/dashboard" element={<DeptDashboard />} />
+            <Route
+              path="/department/dashboard/:id"
+              element={<DeptDashboard />}
+            />
+            <Route path="/department/reports" element={<Reports />} />
+          </>
+        )}
 
-          {/* Non-admin department users (access only department routes) */}
-          {user && departmentName && departmentName !== "admin" && (
-            <>
-              <Route path="/department/dashboard" element={<DeptDashboard />} />
-              <Route path="/department/dashboard/:id" element={<DeptDashboard />} />
-              <Route path="/department/reports" element={<Reports />} />
-            </>
-          )}
+        {/* Non-admin department users (access only department routes) */}
+        {user && departmentName && departmentName !== "admin" && (
+          <>
+            <Route path="/department/dashboard" element={<DeptDashboard />} />
+            <Route
+              path="/department/dashboard/:id"
+              element={<DeptDashboard />}
+            />
+            <Route path="/department/reports" element={<Reports />} />
+          </>
+        )}
 
-          {/* Redirects */}
-          {/* Logged-in admin trying to access auth pages → redirect to dashboard */}
-          {user && departmentName === "admin" && (
-            <>
-              <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
-              <Route path="/login" element={<Navigate to="/admin/dashboard" replace />} />
-            </>
-          )}
+        {/* Redirects */}
+        {/* Logged-in admin trying to access auth pages → redirect to dashboard */}
+        {user && departmentName === "admin" && (
+          <>
+            <Route
+              path="/"
+              element={<Navigate to="/admin/dashboard" replace />}
+            />
+            <Route
+              path="/login"
+              element={<Navigate to="/admin/dashboard" replace />}
+            />
+          </>
+        )}
 
-          {/* Logged-in non-admin trying to access auth pages → redirect to department dashboard */}
-          {user && departmentName && departmentName !== "admin" && (
-            <>
-              <Route path="/" element={<Navigate to="/department/dashboard" replace />} />
-              <Route path="/login" element={<Navigate to="/department/dashboard" replace />} />
-            </>
-          )}
-        </Routes>
-      </div>
+        {/* Logged-in non-admin trying to access auth pages → redirect to department dashboard */}
+        {user && departmentName && departmentName !== "admin" && (
+          <>
+            <Route
+              path="/"
+              element={<Navigate to="/department/dashboard" replace />}
+            />
+            <Route
+              path="/login"
+              element={<Navigate to="/department/dashboard" replace />}
+            />
+          </>
+        )}
+      </Routes>
+    </div>
   );
 }
 
