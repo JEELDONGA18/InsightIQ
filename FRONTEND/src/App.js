@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./components/LandingPage/Navbar";
 import HeroSection from "./components/LandingPage/HeroSection";
@@ -32,7 +37,6 @@ const LandingPage = () => (
 function App() {
   const { user, departmentName, loading } = useDepartments();
   console.log(departmentName);
-  
 
   if (loading) {
     return <div className="text-center text-white mt-10">Loading...</div>;
@@ -59,18 +63,22 @@ function App() {
               <Route path="/admin/department" element={<DeptHeads />} />
               <Route path="/admin/settings" element={<AdminSettings />} />
 
-              <Route path="/department/dashboard" element={<DeptDashboard />} />
-              <Route path="/department/dashboard/:id" element={<DeptDashboard />} />
-              <Route path="/department/reports" element={<Reports />} />
+              <Route
+                path="/department/dashboard/:id"
+                element={<DeptDashboard />}
+              />
+              <Route path="/department/reports/:id" element={<Reports />} />
             </>
           )}
 
           {/* Non-admin department users (access only department routes) */}
           {user && departmentName && departmentName !== "admin" && (
             <>
-              <Route path="/department/dashboard" element={<DeptDashboard />} />
-              <Route path="/department/dashboard/:id" element={<DeptDashboard />} />
-              <Route path="/department/reports" element={<Reports />} />
+              <Route
+                path="/department/dashboard/:id"
+                element={<DeptDashboard />}
+              />
+              <Route path="/department/reports/:id" element={<Reports />} />
             </>
           )}
 
@@ -78,21 +86,33 @@ function App() {
           {/* Logged-in admin trying to access auth pages → redirect to dashboard */}
           {user && departmentName === "admin" && (
             <>
-              <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
-              <Route path="/login" element={<Navigate to="/admin/dashboard" replace />} />
+              <Route
+                path="/"
+                element={<Navigate to="/admin/dashboard" replace />}
+              />
+              <Route
+                path="/login"
+                element={<Navigate to="/admin/dashboard" replace />}
+              />
             </>
           )}
 
           {/* Logged-in non-admin trying to access auth pages → redirect to department dashboard */}
           {user && departmentName && departmentName !== "admin" && (
             <>
-              <Route path="/" element={<Navigate to="/department/dashboard" replace />} />
-              <Route path="/login" element={<Navigate to="/department/dashboard" replace />} />
+              <Route
+                path="/"
+                element={<Navigate to="/department/dashboard" replace />}
+              />
+              <Route
+                path="/login"
+                element={<Navigate to="/department/dashboard" replace />}
+              />
             </>
           )}
         </Routes>
       </div>
-    </Router> 
+    </Router>
   );
 }
 

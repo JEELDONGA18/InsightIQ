@@ -5,13 +5,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { DepartmentProvider } from "./context/DepartmentContext";
 import { AdminProvider } from "./context/AdminContext";
+import { DepartmentFinanceProvider } from "./context/DepartmentFinanceContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AdminProvider>
       <DepartmentProvider>
-        <App />
+        <DepartmentFinanceProvider>
+          <App />
+        </DepartmentFinanceProvider>
       </DepartmentProvider>
     </AdminProvider>
   </React.StrictMode>

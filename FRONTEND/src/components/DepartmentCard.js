@@ -15,12 +15,14 @@ const DepartmentCard = ({ department, onEdit, onDelete }) => {
         >
           Edit
         </button>
-        <button
-          onClick={() => onDelete(department)}
-          className="px-3 py-1 bg-red-500 rounded-lg font-medium hover:brightness-110 transition"
-        >
-          Delete
-        </button>
+        {department.name !== "admin" && (
+          <button
+            onClick={() => onDelete(department)}
+            className="px-3 py-1 bg-red-500 rounded-lg font-medium hover:brightness-110 transition"
+          >
+            Delete
+          </button>
+        )}
         <button
           onClick={() => navigate(`/department/dashboard/${department._id}`)}
           className="px-3 py-1 bg-cyan-500 rounded-lg font-medium hover:bg-cyan-600 transition"

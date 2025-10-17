@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, LogOut, Home, Users, Settings, Clipboard } from "lucide-react"; // import needed icons
+import {
+  Menu,
+  X,
+  LogOut,
+  Home,
+  Users,
+  Settings,
+  Clipboard,
+} from "lucide-react"; // import needed icons
 import { motion } from "framer-motion";
+import { useDepartments } from "../../context/DepartmentContext";
 
 const Sidebar = ({ role }) => {
+  const { departments } = useDepartments();
+  console.log("departments in sidebar", departments);
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const match = location.pathname.match(/\/department\/dashboard\/([^/]+)/);
+  const currentDeptId = match ? match[1] : departments?.[0]?._id;
 
   // Sidebar links with icons
   const links = {
@@ -15,8 +28,16 @@ const Sidebar = ({ role }) => {
       { name: "Settings", path: "/admin/settings", icon: Settings },
     ],
     deptHead: [
-      { name: "Dashboard", path: "/department/dashboard", icon: Home },
-      { name: "Reports", path: "/department/reports", icon: Clipboard },
+      {
+        name: "Dashboard",
+        path: `/department/dashboard/${currentDeptId}`,
+        icon: Home,
+      },
+      {
+        name: "Reports",
+        path: `/department/reports/${currentDeptId}`,
+        icon: Clipboard,
+      },
     ],
   };
 

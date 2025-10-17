@@ -39,10 +39,9 @@ export const DepartmentProvider = ({ children }) => {
     initialize();
   }, [user]);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(departmentName);
-    
-  },[departmentName])
+  }, [departmentName]);
 
   // Check if user is logged in
   const checkAuth = async () => {
@@ -89,9 +88,53 @@ export const DepartmentProvider = ({ children }) => {
       const res = await axios.post("/api/addDepartment", department);
       if (res.status === 200) {
         setDepartments((prev) => [...prev, res.data.department]);
+        toast.success("Department added successfully");
         return { success: true };
       }
-      return { success: false, message: res.data.message || "Failed to add department" };
+      return {
+        success: false,
+        message: res.data.message || "Failed to add department",
+      };
+    } catch {
+      return { success: false, message: "Network error" };
+    }
+  };
+
+  // Edit department and update state
+  const editDepartment = async (id, department) => {
+    try {
+      const res = await axios.put(`/api/host/editDepartment/${id}`, department);
+      const data = res.data;
+      if (res.status === 200) {
+        setDepartments((prev) =>
+          prev.map((d) => (d._id === id ? data.department : d))
+        );
+        toast.success("Department updated successfully");
+        return { success: true };
+      } else {
+        return {
+          success: false,
+          message: data.message || "Failed to update department",
+        };
+      }
+    } catch {
+      return { success: false, message: "Network error" };
+    }
+  };
+
+  const deleteDepartment = async (id) => {
+    try {
+      const res = await axios.delete(`/api/host/deleteDepartment/${id}`);
+      if (res.status === 200) {
+        setDepartments((prev) => prev.filter((d) => d._id !== id));
+        toast.success("Department deleted successfully");
+        return { success: true };
+      } else {
+        return {
+          success: false,
+          message: res.data.message || "Failed to delete department",
+        };
+      }
     } catch {
       return { success: false, message: "Network error" };
     }
@@ -106,6 +149,8 @@ export const DepartmentProvider = ({ children }) => {
         departmentName,
         loading,
         addDepartment,
+        editDepartment,
+        deleteDepartment,
         fetchDepartments,
         identifyDepartment,
       }}
@@ -114,4 +159,3 @@ export const DepartmentProvider = ({ children }) => {
     </DepartmentContext.Provider>
   );
 };
- 
