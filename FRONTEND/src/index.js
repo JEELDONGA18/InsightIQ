@@ -6,17 +6,20 @@ import reportWebVitals from "./reportWebVitals";
 import { DepartmentProvider } from "./context/DepartmentContext";
 import { AdminProvider } from "./context/AdminContext";
 import { DepartmentFinanceProvider } from "./context/DepartmentFinanceContext";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <AdminProvider>
-      <DepartmentProvider>
-        <DepartmentFinanceProvider>
-          <App />
-        </DepartmentFinanceProvider>
-      </DepartmentProvider>
-    </AdminProvider>
+    <BrowserRouter>
+      <AdminProvider>
+        <DepartmentProvider>
+          <DepartmentFinanceProvider>
+            <App />
+          </DepartmentFinanceProvider>
+        </DepartmentProvider>
+      </AdminProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

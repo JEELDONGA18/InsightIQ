@@ -113,17 +113,16 @@ function App() {
             <>
               <Route
                 path="/"
-                element={<Navigate to="/department/dashboard" replace />}
+                element={<Navigate to="/department/dashboard/:id" replace />}
               />
               <Route
                 path="/login"
-                element={<Navigate to="/department/dashboard" replace />}
+                element={<Navigate to="/department/dashboard/:id" replace />}
               />
             </>
           )}
         </Routes>
       </div>
-    </Router>
   );
 }
 
