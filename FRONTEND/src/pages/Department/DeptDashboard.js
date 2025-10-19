@@ -131,8 +131,13 @@ const DeptDashboard = () => {
 
       <main className="flex-1 p-4 md:ml-64 overflow-x-hidden">
         <div className="w-full max-w-[1600px] mx-auto border border-gray-800 p-5 rounded-xl shadow-md m-2">
-          {/* Add Transaction Button */}
-          <div className="flex justify-end mb-4">
+          {/* Header: Department name + Add Transaction */}
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-cyan-400">
+              {finance?.department?.name
+                ? `${finance.department.name} Department`
+                : "Department Dashboard"}
+            </h1>
             <button
               onClick={openModal}
               className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 rounded-2xl shadow-[0_0_15px_rgba(0,255,255,0.4)] font-medium transition-shadow duration-300"

@@ -1,13 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useDepartments } from "../context/DepartmentContext";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const { setUser } = useDepartments();
+  const { setUser, setDepartmentId } = useDepartments();
 
   // ✅ Initialize react-hook-form
   const {
@@ -20,17 +18,14 @@ const LoginPage = () => {
   // ✅ Submit handler
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/login",
-        data,
-        { withCredentials: true }
-      );
+      const res = await axios.post("http://localhost:5000/api/login", data, {
+        withCredentials: true,
+      });
 
       toast.success("Login successful!");
       setUser(res.data.user);
-
-      console.log(res.data.user);
-      
+      setDepartmentId(res.data.departmentId);
+      console.log("Logged in user ID:", res.data);
 
       reset(); // clear the form
     } catch (err) {

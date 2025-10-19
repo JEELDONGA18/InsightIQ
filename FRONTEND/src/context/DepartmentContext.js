@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const DepartmentContext = createContext();
 export const useDepartments = () => useContext(DepartmentContext);
@@ -10,10 +11,11 @@ axios.defaults.withCredentials = true;
 
 export const DepartmentProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [departmentId, setDepartmentId] = useState(null);
   const [departments, setDepartments] = useState([]);
   const [departmentName, setDepartmentName] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [logoutToogle, setLogoutToggle] = useState(false)
+  const [logoutToogle, setLogoutToggle] = useState(false);
   const navigate = useNavigate();
 
   // Check auth on mount
@@ -180,9 +182,11 @@ export const DepartmentProvider = ({ children }) => {
         deleteDepartment,
         fetchDepartments,
         identifyDepartment,
+        departmentId,
+        setDepartmentId,
         logout,
         logoutToogle,
-        setLogoutToggle
+        setLogoutToggle,
       }}
     >
       {children}

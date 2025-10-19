@@ -38,7 +38,14 @@ const LandingPage = () => (
 );
 
 function App() {
-  const { user, departmentName, loading, logoutToogle, setLogoutToggle } = useDepartments();
+  const {
+    user,
+    departmentId,
+    departmentName,
+    loading,
+    logoutToogle,
+    setLogoutToggle,
+  } = useDepartments();
   console.log(departmentName);
   const navigate = useNavigate();
 
@@ -74,55 +81,60 @@ function App() {
             <Route path="/admin/employee" element={<EmployeePage />} />
             <Route path="/admin/settings" element={<AdminSettings />} />
 
-              <Route
-                path="/department/dashboard/:id"
-                element={<DeptDashboard />}
-              />
-              <Route path="/department/reports/:id" element={<Reports />} />
-            </>
-          )}
+            <Route
+              path="/department/dashboard/:id"
+              element={<DeptDashboard />}
+            />
+            <Route path="/department/reports/:id" element={<Reports />} />
+          </>
+        )}
 
-          {/* Non-admin department users (access only department routes) */}
-          {user && departmentName && departmentName !== "admin" && (
-            <>
-              <Route
-                path="/department/dashboard/:id"
-                element={<DeptDashboard />}
-              />
-              <Route path="/department/reports/:id" element={<Reports />} />
-            </>
-          )}
+        {/* Non-admin department users (access only department routes) */}
+        {user && departmentName && departmentName !== "admin" && (
+          <>
+            <Route
+              path="/department/dashboard/:id"
+              element={<DeptDashboard />}
+            />
+            <Route path="/department/reports/:id" element={<Reports />} />
+          </>
+        )}
 
-          {/* Redirects */}
-          {/* Logged-in admin trying to access auth pages → redirect to dashboard */}
-          {user && departmentName === "admin" && (
-            <>
-              <Route
-                path="/"
-                element={<Navigate to="/admin/dashboard" replace />}
-              />
-              <Route
-                path="/login"
-                element={<Navigate to="/admin/dashboard" replace />}
-              />
-            </>
-          )}
+        {/* Redirects */}
+        {/* Logged-in admin trying to access auth pages → redirect to dashboard */}
+        {user && departmentName === "admin" && (
+          <>
+            <Route
+              path="/"
+              element={<Navigate to="/admin/dashboard" replace />}
+            />
+            <Route
+              path="/login"
+              element={<Navigate to="/admin/dashboard" replace />}
+            />
+          </>
+        )}
 
-          {/* Logged-in non-admin trying to access auth pages → redirect to department dashboard */}
-          {user && departmentName && departmentName !== "admin" && (
-            <>
-              <Route
-                path="/"
-                element={<Navigate to="/department/dashboard/:id" replace />}
-              />
-              <Route
-                path="/login"
-                element={<Navigate to="/department/dashboard/:id" replace />}
-              />
-            </>
-          )}
-        </Routes>
-      </div>
+        {/* Logged-in non-admin trying to access auth pages → redirect to department dashboard */}
+        {user && departmentName && departmentName !== "admin" && (
+          <>
+            <Route
+              path="/"
+              element={<Navigate to="/department/dashboard/:id" replace />}
+            />
+            <Route
+              path="/login"
+              element={
+                <Navigate
+                  to={`/department/dashboard/${departmentId}`}
+                  replace
+                />
+              }
+            />
+          </>
+        )}
+      </Routes>
+    </div>
   );
 }
 

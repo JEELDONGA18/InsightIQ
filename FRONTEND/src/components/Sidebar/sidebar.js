@@ -1,17 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, LogOut, Home, Users, Settings, Clipboard, icons } from "lucide-react"; // import needed icons
+import {
+  Menu,
+  X,
+  LogOut,
+  Home,
+  Users,
+  Settings,
+  Clipboard,
+  icons,
+} from "lucide-react"; // import needed icons
 import { motion } from "framer-motion";
 import { useDepartments } from "../../context/DepartmentContext";
 
 const Sidebar = ({ role }) => {
-  const { departments } = useDepartments();
+  const { departments, departmentId } = useDepartments();
   console.log("departments in sidebar", departments);
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const match = location.pathname.match(/\/department\/dashboard\/([^/]+)/);
-  const currentDeptId = match ? match[1] : departments?.[0]?._id;
-  const {logout} = useDepartments();
+  const { logout } = useDepartments();
+
+  // derive current dept id from URL if present, fallback to context
+  const urlDeptIdMatch = location.pathname.match(
+    /\/department\/(?:dashboard|reports)\/([^/]+)/
+  );
+  const currentDeptId = urlDeptIdMatch?.[1] || departmentId;
 
   // Sidebar links with icons
   const links = {
@@ -24,12 +37,16 @@ const Sidebar = ({ role }) => {
     deptHead: [
       {
         name: "Dashboard",
-        path: `/department/dashboard/${currentDeptId}`,
+        path: currentDeptId
+          ? `/department/dashboard/${currentDeptId}`
+          : "/department/dashboard",
         icon: Home,
       },
       {
         name: "Reports",
-        path: `/department/reports/${currentDeptId}`,
+        path: currentDeptId
+          ? `/department/reports/${currentDeptId}`
+          : "/department/reports",
         icon: Clipboard,
       },
     ],
@@ -40,6 +57,18 @@ const Sidebar = ({ role }) => {
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
+
+  // active matcher: treat any /department/dashboard/* or /department/reports/* as active
+  const isActive = (linkPath) => {
+    const p = location.pathname;
+    if (linkPath.startsWith("/department/dashboard")) {
+      return /^\/department\/dashboard(\/|$)/.test(p);
+    }
+    if (linkPath.startsWith("/department/reports")) {
+      return /^\/department\/reports(\/|$)/.test(p);
+    }
+    return p === linkPath;
+  };
 
   return (
     <>
@@ -74,8 +103,8 @@ const Sidebar = ({ role }) => {
           {/* Navigation Links */}
           <nav className="mt-6 space-y-1">
             {roleLinks.map((link, idx) => {
-              const active = location.pathname === link.path;
-              const Icon = link.icon; // Get the icon component
+              const active = isActive(link.path);
+              const Icon = link.icon;
               return (
                 <Link
                   key={idx}
@@ -96,7 +125,10 @@ const Sidebar = ({ role }) => {
 
         {/* Logout Button */}
         <div className="p-6 border-t border-gray-800">
-          <button onClick={logout} className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-800 hover:bg-cyan-600 text-gray-100 font-medium rounded-lg transition-all duration-300">
+          <button
+            onClick={logout}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-800 hover:bg-cyan-600 text-gray-100 font-medium rounded-lg transition-all duration-300"
+          >
             <LogOut size={16} />
             Logout
           </button>

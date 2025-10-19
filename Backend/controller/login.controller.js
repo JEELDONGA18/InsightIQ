@@ -46,17 +46,18 @@ const loginController = asynchandler(async (req, res) => {
   return res.json({
     success: true,
     message: "Login successful",
-    user: user._id
+    user: user._id,
+    departmentId: user.department,
   });
 });
 
-const checkAuthUser = (req, res) =>{
+const checkAuthUser = (req, res) => {
   return res.status(200).json({
     success: true,
     message: "User is authenticated",
-    user: req.user, 
+    user: req.user,
   });
-}
+};
 
 const logOut = (req, res) => {
   // Check if cookie exists
@@ -76,5 +77,4 @@ const logOut = (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 };
 
-
-export { checkAuthUser, loginController, logOut};
+export { checkAuthUser, loginController, logOut };
