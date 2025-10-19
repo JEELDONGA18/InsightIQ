@@ -31,11 +31,11 @@ const Reports = () => {
     const prevMonth = prev.getMonth();
     const prevYear = prev.getFullYear();
     const currentReq = axios.get(
-      `http://localhost:5000/api/host/department/${id}/report?month=${selectedMonth}&year=${selectedYear}`,
+      `https://insightiq-backend-4otj.onrender.com/api/host/department/${id}/report?month=${selectedMonth}&year=${selectedYear}`,
       { withCredentials: true }
     );
     const prevReq = axios.get(
-      `http://localhost:5000/api/host/department/${id}/report?month=${prevMonth}&year=${prevYear}`,
+      `https://insightiq-backend-4otj.onrender.com/api/host/department/${id}/report?month=${prevMonth}&year=${prevYear}`,
       { withCredentials: true }
     );
     Promise.all([currentReq, prevReq])

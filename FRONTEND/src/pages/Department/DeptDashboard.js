@@ -83,7 +83,7 @@ const DeptDashboard = () => {
     }
     try {
       await axios.post(
-        "http://localhost:5000/api/host/addTransaction",
+        "https://insightiq-backend-4otj.onrender.com/api/host/addTransaction",
         {
           department: id,
           type: form.type,

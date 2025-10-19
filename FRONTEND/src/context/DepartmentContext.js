@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 const DepartmentContext = createContext();
 export const useDepartments = () => useContext(DepartmentContext);
 
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "https://insightiq-backend-4otj.onrender.com";
 axios.defaults.withCredentials = true;
 
 export const DepartmentProvider = ({ children }) => {

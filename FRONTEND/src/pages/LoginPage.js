@@ -18,9 +18,11 @@ const LoginPage = () => {
   // ✅ Submit handler
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/login", data, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        "https://insightiq-backend-4otj.onrender.com/api/login",
+        data,
+        { withCredentials: true }
+      );
 
       toast.success("Login successful!");
       setUser(res.data.user);
