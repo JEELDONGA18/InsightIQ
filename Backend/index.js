@@ -14,7 +14,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "https://insight-iq-gamma.vercel.app", // or your frontend port
+    origin: process.env.CLIENT_URL, // or your frontend port
     credentials: true,
   })
 );

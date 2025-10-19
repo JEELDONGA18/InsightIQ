@@ -31,15 +31,11 @@ const Reports = () => {
     const prevMonth = prev.getMonth();
     const prevYear = prev.getFullYear();
     const currentReq = axios.get(
-      `${
-        import.meta.env.VITE_BACKEND_URI
-      }/api/host/department/${id}/report?month=${selectedMonth}&year=${selectedYear}`,
+      `${process.env.REACT_APP_BACKEND_URI}/api/host/department/${id}/report?month=${selectedMonth}&year=${selectedYear}`,
       { withCredentials: true }
     );
     const prevReq = axios.get(
-      `${
-        import.meta.env.VITE_BACKEND_URI
-      }/api/host/department/${id}/report?month=${prevMonth}&year=${prevYear}`,
+      `${process.env.REACT_APP_BACKEND_URI}/api/host/department/${id}/report?month=${prevMonth}&year=${prevYear}`,
       { withCredentials: true }
     );
     Promise.all([currentReq, prevReq])

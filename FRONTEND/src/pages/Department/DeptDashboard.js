@@ -83,7 +83,7 @@ const DeptDashboard = () => {
     }
     try {
       await axios.post(
-        `${import.meta.env.VITE_BACKEND_URI}/api/host/addTransaction`,
+        `${process.env.REACT_APP_BACKEND_URI}/api/host/addTransaction`,
         {
           department: id,
           type: form.type,

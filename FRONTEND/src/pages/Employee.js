@@ -4,7 +4,7 @@ import axios from "axios";
 import Sidebar from "../components/Sidebar/sidebar.js";
 import { useForm } from "react-hook-form";
 
-axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URI;
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URI;
 axios.defaults.withCredentials = true;
 
 const EmployeePage = () => {
