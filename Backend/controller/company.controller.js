@@ -26,7 +26,7 @@ const company = asynchandler(async (req, res) => {
   }
 
   const isExistingCompanyUser = await User.find({ email });
-  if (!isExistingCompanyUser) {
+  if (isExistingCompanyUser) {
     return res
       .status(409)
       .json({ message: "User with this email already exists" });
