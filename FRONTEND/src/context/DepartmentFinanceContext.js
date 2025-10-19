@@ -4,7 +4,7 @@ import axios from "axios";
 const DepartmentFinanceContext = createContext();
 export const useDepartmentFinance = () => useContext(DepartmentFinanceContext);
 
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "https://insightiq-backend-4otj.onrender.com";
 axios.defaults.withCredentials = true;
 
 export const DepartmentFinanceProvider = ({ children }) => {

@@ -4,7 +4,7 @@ import axios from "axios";
 import Sidebar from "../components/Sidebar/sidebar.js";
 import { useForm } from "react-hook-form";
 
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "https://insightiq-backend-4otj.onrender.com";
 axios.defaults.withCredentials = true;
 
 const EmployeePage = () => {
