@@ -83,7 +83,7 @@ const DeptDashboard = () => {
     }
     try {
       await axios.post(
-        "https://insightiq-backend-4otj.onrender.com/api/host/addTransaction",
+        `${import.meta.env.VITE_BACKEND_URI}/api/host/addTransaction`,
         {
           department: id,
           type: form.type,

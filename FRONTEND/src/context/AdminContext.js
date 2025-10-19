@@ -11,7 +11,7 @@ import axios from "axios";
 const AdminContext = createContext();
 export const useAdmin = () => useContext(AdminContext);
 
-axios.defaults.baseURL = "https://insightiq-backend-4otj.onrender.com"
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URI;
 axios.defaults.withCredentials = true;
 
 export const AdminProvider = ({ children }) => {

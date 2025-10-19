@@ -19,7 +19,7 @@ const LoginPage = () => {
   const onSubmit = async (data) => {
     try {
       const res = await axios.post(
-        "https://insightiq-backend-4otj.onrender.com/api/login",
+        `${import.meta.env.VITE_BACKEND_URI}/api/login`,
         data,
         { withCredentials: true }
       );

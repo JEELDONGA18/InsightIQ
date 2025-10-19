@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const DepartmentContext = createContext();
 export const useDepartments = () => useContext(DepartmentContext);
 
-axios.defaults.baseURL = "https://insightiq-backend-4otj.onrender.com";
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URI;
 axios.defaults.withCredentials = true;
 
 export const DepartmentProvider = ({ children }) => {
