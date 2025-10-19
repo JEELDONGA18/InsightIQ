@@ -8,3 +8,6 @@ recharts
 axios 
 react-hot-toast
 react-hook-form
+jspdf 
+jspdf-autotable
+react-tostify
